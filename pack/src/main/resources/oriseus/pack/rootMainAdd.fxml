@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="813.0" prefWidth="635.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oriseus.pack.controllers.RootAddController">
+   <children>
+      <Pane prefHeight="70.0" prefWidth="200.0">
+         <children>
+            <TextField fx:id="nameField" layoutX="345.0" layoutY="22.0" prefHeight="26.0" prefWidth="247.0" />
+            <Text layoutX="154.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Номер" textAlignment="CENTER">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+         </children>
+      </Pane>
+      <Pane prefHeight="70.0" prefWidth="635.0">
+         <children>
+            <Text layoutX="113.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ячейка хранения">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+            <TextField fx:id="storageCellField" layoutX="345.0" layoutY="22.0" prefHeight="26.0" prefWidth="247.0" />
+         </children>
+      </Pane>
+      <Pane prefHeight="70.0" prefWidth="635.0">
+         <children>
+            <TextField fx:id="technologicalMapNameField" layoutX="345.0" layoutY="21.0" prefHeight="26.0" prefWidth="247.0" />
+            <Text layoutX="74.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Номер Технологической карты">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+         </children>
+      </Pane>
+      <Pane prefHeight="70.0" prefWidth="635.0">
+         <children>
+            <Text layoutX="100.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Наличие повреждений">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+            <CheckBox fx:id="isDamageCheckBox" layoutX="380.0" layoutY="23.0" mnemonicParsing="false" />
+         </children>
+      </Pane>
+      <Pane prefHeight="70.0" prefWidth="200.0">
+         <children>
+            <Text layoutX="71.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Наличие ремонтного комплекта">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+            <CheckBox fx:id="isRepairPackCheckBox" layoutX="380.0" layoutY="25.0" mnemonicParsing="false" />
+         </children>
+      </Pane>
+      <Pane prefHeight="70.0" prefWidth="200.0">
+         <children>
+            <Text layoutX="99.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Доступна для работы">
+               <font>
+                  <Font size="15.0" />
+               </font></Text>
+            <CheckBox fx:id="isAvailabilityCheckBox" layoutX="380.0" layoutY="25.0" mnemonicParsing="false" />
+         </children>
+      </Pane>
+      <Pane prefHeight="70.0" prefWidth="200.0">
+         <children>
+            <Text layoutX="86.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Доступна для утилизации">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <CheckBox fx:id="isDisposalCheckBox" layoutX="380.0" layoutY="25.0" mnemonicParsing="false" />
+         </children>
+      </Pane>
+      <Pane prefHeight="70.0" prefWidth="200.0">
+         <children>
+            <Text layoutX="160.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Цена">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <TextField fx:id="rubPriceTextField" layoutX="353.0" layoutY="1.0" prefHeight="26.0" prefWidth="196.0" />
+            <TextField fx:id="kopPriceTextField" layoutX="353.0" layoutY="43.0" prefHeight="26.0" prefWidth="196.0" />
+            <Text layoutX="574.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Рублей" />
+            <Text layoutX="574.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Копеек" />
+         </children>
+      </Pane>
+      <Pane prefHeight="183.0" prefWidth="635.0">
+         <children>
+            <Text layoutX="48.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Заметки:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <TextArea fx:id="notesTextArea" layoutX="23.0" layoutY="41.0" prefHeight="119.0" prefWidth="590.0" />
+         </children>
+      </Pane>
+      <Pane prefHeight="70.0" prefWidth="635.0">
+         <children>
+            <Button fx:id="exitButton" layoutX="41.0" layoutY="22.0" mnemonicParsing="false" onAction="#exit" text="Отмена" />
+            <Button fx:id="addButton" layoutX="518.0" layoutY="22.0" mnemonicParsing="false" onAction="#add" text="Добавить" />
+            <Text fx:id="warningText" layoutX="144.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="347.13000106811523" />
+            <Text fx:id="warningText" layoutX="144.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="347.13000106811523" />
+         </children>
+      </Pane>
+   </children>
+</VBox>

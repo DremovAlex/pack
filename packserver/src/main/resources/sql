@@ -1,0 +1,28 @@
+create table Stamp(
+	id int primary key generated always as identity,
+	name varchar(50) not null unique,
+	storageCell varchar(50),
+	technologicalMapName varchar(50),
+	damaged boolean not null,
+	repairPack boolean not null,
+	availability boolean not null,
+	disposal boolean not null,
+	price bigInt,
+	addingDate timestamp not null,
+	notes text
+);
+
+create table StampDamageHistory(
+	id int primary key generated always as identity,
+	dateofdamagedetection timestamp not null,
+	shift int not null,
+	descriptionofdamage text,
+	stamp varchar references Stamp(name) on delete cascade
+);
+
+create table StampRepairhistory(
+	id int primary key generated always as identity,
+	repairdate timestamp not null,
+	repairprice bigInt,
+	stamp varchar references Stamp(name) on delete cascade
+);

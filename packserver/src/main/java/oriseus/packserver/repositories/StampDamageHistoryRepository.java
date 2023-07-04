@@ -1,0 +1,15 @@
+package oriseus.packserver.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import oriseus.packserver.models.StampDamageHistory;
+
+@Repository
+public interface StampDamageHistoryRepository extends JpaRepository<StampDamageHistory, Integer>{
+
+	List<StampDamageHistory> findByStampName(String name);
+
+}

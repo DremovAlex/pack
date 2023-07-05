@@ -38,14 +38,15 @@ public class StampController {
 	}
 	
 	@GetMapping()
-	public StampWrapper getAll() {
-		return stampService.findAll();
+	public ResponseEntity<StampWrapper> getAll() {
+		StampWrapper stampWrapper = stampService.findAll();
+		return new ResponseEntity<>(stampWrapper, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{name}")
-	public StampDTO getByName(@PathVariable String name) {
+	public ResponseEntity<StampDTO> getByName(@PathVariable String name) {
 		StampDTO stampDTO = convert.convertToStampDTO(stampService.findByName(name));	
-		return stampDTO;
+		return new ResponseEntity<>(stampDTO, HttpStatus.OK);
 	}
 	
 	@PostMapping("/update")
@@ -54,7 +55,7 @@ public class StampController {
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/delete")
+	@PostMapping("/delete")
 	public ResponseEntity<HttpStatus> deleteStamp(@RequestBody StampDTO stampDTO) {
 		stampService.deleteStamp(convert.convertToStamp(stampDTO));
 		return ResponseEntity.ok(HttpStatus.OK);

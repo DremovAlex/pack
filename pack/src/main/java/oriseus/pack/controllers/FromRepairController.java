@@ -88,11 +88,8 @@ public class FromRepairController {
     	stampRepairHistoryDTO.setRepairPrice(price);
     	stampRepairHistoryDTO.setStampDTO(stampDTO);
     	
-    	try {
-			HttpService.sendObject(stampRepairHistoryDTO, PropertiesService.getProperties("ServerUrl") + "/stampRepairHistory/addNewRepairHistory", "POST");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stampRepairHistory/addNewRepairHistory", 
+				stampRepairHistoryDTO);
         
         windowService.closeWindow(confirmButton);
     }

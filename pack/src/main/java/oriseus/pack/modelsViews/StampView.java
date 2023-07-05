@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class StampView {
 
+	private Integer id;
     private SimpleStringProperty name;
     private SimpleStringProperty storageCell;
     private SimpleStringProperty technologicalMapName;
@@ -15,6 +16,12 @@ public class StampView {
     private SimpleStringProperty addingDate;
     private SimpleStringProperty notes;
     
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name.get();
 	}

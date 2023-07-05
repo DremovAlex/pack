@@ -85,7 +85,8 @@ public class UserSetDamageController {
     	StampDamageHistoryDTO stampDamageHistoryDTO = ConvertService.convertToStampDamageHistoryDTO(stampDamageHistoryView);
     	stampDamageHistoryDTO.setStampDTO(stampDTO);
     	    	
-    	HttpService.sendObject(stampDamageHistoryDTO, PropertiesService.getProperties("ServerUrl") + "/stampDamageHistory/addNewDamageHistory", "POST");
+    	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stampDamageHistory/addNewDamageHistory", 
+    			stampDamageHistoryDTO);
 
         windowService.closeWindow(confirmButton);
     }

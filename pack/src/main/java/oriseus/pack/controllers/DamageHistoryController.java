@@ -71,12 +71,9 @@ public class DamageHistoryController {
         discriptionOfDamageColumn.setCellValueFactory(new PropertyValueFactory<>("descriptionOfDamage"));
         
         StampDamageHistoryWrapper stampDamageHistoryWrapper = null;
-		try {
-			stampDamageHistoryWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") + 
-					"/stampDamageHistory/" + stampView.getName().replace(" ", "%20"), StampDamageHistoryWrapper.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+        stampDamageHistoryWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") + 
+				"/stampDamageHistory/" + stampView.getName().replace(" ", "%20"), StampDamageHistoryWrapper.class);
 		
         observableList = ConvertService.convertToStampDamageHistoryViewObservableList(stampDamageHistoryWrapper.getList());
         tableView.setItems(observableList); 

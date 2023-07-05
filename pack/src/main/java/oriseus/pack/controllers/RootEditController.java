@@ -10,6 +10,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import oriseus.pack.dto.StampDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
 import oriseus.pack.service.HttpService;
@@ -96,8 +97,10 @@ public class RootEditController {
     	}
     	
     	Long price = Long.parseLong(rub + kop);
+    	Integer id = stampView.getId();
     	
         stampView = new StampView();
+        stampView.setId(id);
         stampView.setName(new SimpleStringProperty(nameTextField.getText()));
         stampView.setStorageCell(new SimpleStringProperty(storageCellTextField.getText()));
         stampView.setTechnologicalMapName(new SimpleStringProperty(technologicalMapNameTextField.getText()));
@@ -108,8 +111,8 @@ public class RootEditController {
         stampView.setPrice(new SimpleStringProperty(ConvertService.convertLongToString(price)));
         stampView.setAddingDate(new SimpleStringProperty(ConvertService.convertLocalDateTimeStringToString(LocalDateTime.now())));
         stampView.setNotes(new SimpleStringProperty(notesTextArea.getText()));
-        		
-        HttpService.sendObject(ConvertService.convertToStampDTO(stampView), PropertiesService.getProperties("ServerUrl") + "/stamps/update", "POST");
+                
+        HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/update", ConvertService.convertToStampDTO(stampView));
         
         windowService.closeWindow(editButton);
     }

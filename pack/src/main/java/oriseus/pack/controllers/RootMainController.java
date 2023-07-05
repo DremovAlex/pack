@@ -105,12 +105,11 @@ public class RootMainController {
         columnNotes.setCellValueFactory(new PropertyValueFactory<>("notes"));
         
         StampWrapper stampWrapper = null;
-		try {
-			stampWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") + "/stamps", StampWrapper.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        observableList = ConvertService.convertToStampViewObservableList(stampWrapper.getList());
+		
+        stampWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") + "/stamps", StampWrapper.class);
+        
+		observableList = ConvertService.convertToStampViewObservableList(stampWrapper.getList());
+        
         tableView.setItems(observableList); 
     }
 	
@@ -153,7 +152,7 @@ public class RootMainController {
         	warningText.setText("На клише отсутствуют повреждения");
         }
             
-        HttpService.sendObject(ConvertService.convertToStampDTO(stampView), PropertiesService.getProperties("ServerUrl") + "/stamps/update", "POST");
+        HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/update", ConvertService.convertToStampDTO(stampView));
            
         tableView.refresh();
     }
@@ -177,7 +176,7 @@ public class RootMainController {
     		return;
     	}
     	
-    	HttpService.sendObject(ConvertService.convertToStampDTO(stampView), PropertiesService.getProperties("ServerUrl") + "/stamps/delete", "DELETE");
+    	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/delete", ConvertService.convertToStampDTO(stampView));
         
     	tableView.refresh();
     }

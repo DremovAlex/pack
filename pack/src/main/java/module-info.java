@@ -6,7 +6,9 @@ module oriseus.pack {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.datatype.jsr310;
-    
+	requires spring.web;
+    requires spring.core;
+	
     opens oriseus.pack to javafx.fxml;
     opens oriseus.pack.modelsViews to javafx.fxml;
     opens oriseus.pack.controllers to javafx.fxml;

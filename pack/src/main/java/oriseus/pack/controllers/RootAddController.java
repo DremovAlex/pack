@@ -11,6 +11,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import oriseus.pack.dto.StampDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
 import oriseus.pack.service.HttpService;
@@ -63,6 +64,14 @@ public class RootAddController {
     	String rub = rubPriceTextField.getText();
     	String kop = kopPriceTextField.getText();
     	
+    	if (rub == null || rub.isEmpty()) {
+    		rub = "0";
+    	}
+    	
+    	if (kop == null || kop.isEmpty()) {
+    		kop = "00";
+    	}
+    	
     	if (nameField.getText().isEmpty()) {
     		warningText.setText("Пожалуйста, введите номер клише");
     		return;
@@ -74,15 +83,7 @@ public class RootAddController {
 			warningText.setText("Пожалуйста укажите коректную сумму");
 			return;
 		}
-    	
-    	if (rub == null || rub.isEmpty()) {
-    		rub = "0";
-    	}
-    	
-    	if (kop == null || kop.isEmpty()) {
-    		kop = "00";
-    	}
-    	
+    	   	
     	Long price = Long.parseLong(rub + kop);
     	
         StampView stampView = new StampView();
@@ -97,7 +98,7 @@ public class RootAddController {
         stampView.setAddingDate(new SimpleStringProperty(ConvertService.convertLocalDateTimeStringToString(LocalDateTime.now())));
         stampView.setNotes(new SimpleStringProperty(notesTextArea.getText()));
 		
-        HttpService.sendObject(ConvertService.convertToStampDTO(stampView), PropertiesService.getProperties("ServerUrl") + "/stamps/addNewStamp", "POST");
+        HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/addNewStamp", ConvertService.convertToStampDTO(stampView));
         
         windowService.closeWindow(addButton);
     }

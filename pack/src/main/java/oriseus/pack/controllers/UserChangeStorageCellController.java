@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import oriseus.pack.dto.StampDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
 import oriseus.pack.service.HttpService;
@@ -63,11 +64,9 @@ public class UserChangeStorageCellController {
 		}
     	
         stampView.setStorageCell(new SimpleStringProperty(storageCellTextField.getText()));
-        try {
-			HttpService.sendObject(ConvertService.convertToStampDTO(stampView), PropertiesService.getProperties("ServerUrl") + "/stamps/update", "POST");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        
+        HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/update", ConvertService.convertToStampDTO(stampView));
+        
         windowService.closeWindow(confirmButton);
     }
     

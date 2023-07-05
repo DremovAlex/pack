@@ -66,12 +66,9 @@ public class RepairHistoryController {
         repairPriceColumn.setCellValueFactory(new PropertyValueFactory<>("repairPrice"));
         
         StampRepairHistoryWrapper stampRepairHistoryWrapper = null;
-		try {
-			stampRepairHistoryWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") +
-					"/stampRepairHistory/" + stampView.getName().replace(" ", "%20"), StampRepairHistoryWrapper.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+        stampRepairHistoryWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") +
+				"/stampRepairHistory/" + stampView.getName().replace(" ", "%20"), StampRepairHistoryWrapper.class);
         
 		observableList = ConvertService.convertToStampRepairHistoryViewObservableList(stampRepairHistoryWrapper.getList());
         

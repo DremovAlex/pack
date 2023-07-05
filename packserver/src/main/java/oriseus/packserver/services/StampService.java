@@ -46,12 +46,12 @@ public class StampService {
 	}
 	
 	public Stamp findByName(String name) {
-		return stampRepository.findByName(name);
+		return stampRepository.findByName(name).orElseThrow();
 	}
 
 	@Transactional
 	public void updateStamp(Stamp stamp) {
-		Stamp oldStamp = stampRepository.findByName(stamp.getName());
+		Stamp oldStamp = stampRepository.findById(stamp.getId()).orElseThrow();
 		stamp.setId(oldStamp.getId());
 		stamp.setAddingDate(oldStamp.getAddingDate());
 		stampRepository.save(stamp);
@@ -59,7 +59,7 @@ public class StampService {
 
 	@Transactional
 	public void deleteStamp(Stamp stamp) {
-		Stamp deletedStamp = stampRepository.findByName(stamp.getName());
+		Stamp deletedStamp = stampRepository.findByName(stamp.getName()).orElseThrow();
 		stampRepository.delete(deletedStamp);
 	}
 

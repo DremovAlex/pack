@@ -1,7 +1,5 @@
 package oriseus.packserver.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import oriseus.packserver.dto.StampDamageHistoryDTO;
 import oriseus.packserver.dto.StampDamageHistoryWrapper;
-import oriseus.packserver.dto.StampWrapper;
 import oriseus.packserver.services.StampDamageHistoryService;
 import oriseus.packserver.utils.Convert;
 
@@ -35,11 +32,12 @@ public class StampDamageHistoryController {
 	@PostMapping("/addNewDamageHistory")
 	public ResponseEntity<HttpStatus> addNewDamageHistory(@RequestBody StampDamageHistoryDTO stampDamageHistoryDTO) {
 		stampDamageHistoryService.addDamageHistory(convert.convertToStampDamageHistory(stampDamageHistoryDTO));
-		return ResponseEntity.ok(HttpStatus.OK);
+		return ResponseEntity.ok(HttpStatus.OK);		
 	}
 	
 	@GetMapping("/{name}")
-	public StampDamageHistoryWrapper getByStampName(@PathVariable String name) {
-		return stampDamageHistoryService.findbyName(name);
+	public ResponseEntity<StampDamageHistoryWrapper> getByStampName(@PathVariable String name) {
+		StampDamageHistoryWrapper stampDamageHistoryWrapper = stampDamageHistoryService.findbyName(name);
+		return new ResponseEntity<>(stampDamageHistoryWrapper, HttpStatus.OK);
 	}
 }

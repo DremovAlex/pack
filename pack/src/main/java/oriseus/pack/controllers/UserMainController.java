@@ -84,11 +84,7 @@ public class UserMainController {
         
         StampWrapper stampWrapper = null;
        
-		try {
-			stampWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") + "/stamps", StampWrapper.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		stampWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") + "/stamps", StampWrapper.class);
         observableList = ConvertService.convertToStampViewObservableList(stampWrapper.getList());
         tableView.setItems(observableList); 
     }

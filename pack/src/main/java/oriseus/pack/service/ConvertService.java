@@ -22,6 +22,7 @@ public class ConvertService {
 
 	public static StampView convertToStampView(StampDTO stampDTO) {
 		StampView stampView = new StampView();
+		stampView.setId(stampDTO.getId());
 		stampView.setName(new SimpleStringProperty(stampDTO.getName()));
 		stampView.setStorageCell(new SimpleStringProperty(stampDTO.getStorageCell()));
 		stampView.setTechnologicalMapName(new SimpleStringProperty(stampDTO.getTechnologicalMapName()));
@@ -37,6 +38,7 @@ public class ConvertService {
 	
 	public static StampDTO convertToStampDTO(StampView stampView) {
 		StampDTO stampDTO = new StampDTO();
+		stampDTO.setId(stampView.getId());
 		stampDTO.setName(stampView.getName());
 		stampDTO.setStorageCell(stampView.getStorageCell());
 		stampDTO.setTechnologicalMapName(stampView.getTechnologicalMapName());

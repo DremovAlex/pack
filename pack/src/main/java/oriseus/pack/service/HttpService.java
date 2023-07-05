@@ -7,20 +7,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-
-
 public class HttpService {
-	
+		
 	public static <T> T getObject(String url, Class<T> clazz) {
-
+		
 		final RestTemplate restTemplate = new RestTemplate();
 		final HttpHeaders headers = new HttpHeaders();
 		
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseEntity<T> entity = restTemplate.getForEntity(url, clazz);		
-				
-		if (!entity.getStatusCode().equals(HttpStatus.OK)) {
-			throw new RestClientException("Ошибка соединения");
+		ResponseEntity<T> entity = null;
+		
+		try {
+			entity = restTemplate.getForEntity(url, clazz);	
+		} catch (Exception e) {
+			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		}
+			
+		if (!entity.getStatusCode().equals(HttpStatus.OK)) {			
+			Exception e = new RestClientException(entity.getStatusCode().toString());
+			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
 		}
 		
 		return (T) entity.getBody();
@@ -32,10 +37,17 @@ public class HttpService {
 		final HttpHeaders headers = new HttpHeaders();
 		
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		ResponseEntity<HttpStatus> entity = restTemplate.postForEntity(url, t, HttpStatus.class);
+		ResponseEntity<HttpStatus> entity = null;
 		
+		try {
+			entity = restTemplate.postForEntity(url, t, HttpStatus.class);
+		} catch (Exception e) {
+			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		}
+			
 		if (!entity.getStatusCode().equals(HttpStatus.OK)) {
-			throw new RestClientException("Ошибка соединения");
+			Exception e = new RestClientException(entity.getStatusCode().toString());
+			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
 		}
 	}
 }

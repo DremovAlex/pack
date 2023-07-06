@@ -52,8 +52,8 @@ public class StampService {
 	@Transactional
 	public void updateStamp(Stamp stamp) {
 		Stamp oldStamp = stampRepository.findById(stamp.getId()).orElseThrow();
-		stamp.setId(oldStamp.getId());
-		stamp.setAddingDate(oldStamp.getAddingDate());
+//		stamp.setId(oldStamp.getId());
+		stamp.setAddingDate(oldStamp.getAddingDate());		
 		stampRepository.save(stamp);
 	}
 

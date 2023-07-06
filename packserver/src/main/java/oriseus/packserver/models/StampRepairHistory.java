@@ -28,7 +28,7 @@ public class StampRepairHistory {
     private Long repairPrice;
 	
 	@ManyToOne
-	@JoinColumn(name = "stamp", referencedColumnName = "name")
+	@JoinColumn(name = "stamp", referencedColumnName = "id")
 	private Stamp stamp;
 	
     public Long getId() {

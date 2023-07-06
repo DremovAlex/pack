@@ -17,12 +17,22 @@ create table StampDamageHistory(
 	dateofdamagedetection timestamp not null,
 	shift int not null,
 	descriptionofdamage text,
-	stamp varchar references Stamp(name) on delete cascade
+	stamp int references Stamp(id) on delete cascade
 );
 
 create table StampRepairhistory(
 	id int primary key generated always as identity,
 	repairdate timestamp not null,
 	repairprice bigInt,
-	stamp varchar references Stamp(name) on delete cascade
+	stamp int references Stamp(id) on delete cascade
 );
+
+create table role(
+	id int primary key generated always as identity,
+	name varchar unique not null,
+	password varchar unique not null,
+	role varchar unique not null
+);
+
+insert into role (name, password, role) values ('user', 'user', 'user');
+insert into role (name, password, role) values ('root', 'root', 'root');

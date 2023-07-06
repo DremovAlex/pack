@@ -60,14 +60,6 @@ public class FromRepairController {
     	String rub = rubPriceTextField.getText();
     	String kop = kopPriceTextField.getText();
     	
-    	try {
-			Integer.parseInt(rub);
-			Integer.parseInt(kop);
-		} catch (Exception e) {
-			warningText.setText("Пожалуйста укажите коректную сумму");
-			return;
-		}
-    	
     	if (rub == null || rub.isEmpty()) {
     		rub = "0";
     	}
@@ -76,6 +68,19 @@ public class FromRepairController {
     		kop = "00";
     	}
     	
+    	if (kop.length() > 2) {
+    		warningText.setText("Пожалуйста укажите коректную сумму");
+    		return;
+    	}
+    	
+    	try {
+			Integer.parseInt(rub);
+			Integer.parseInt(kop);
+		} catch (Exception e) {
+			warningText.setText("Пожалуйста укажите коректную сумму");
+			return;
+		}
+
     	Long price = Long.parseLong(rub + kop);
     	
     	stampView.setAvailability(new SimpleStringProperty("Да"));
@@ -83,10 +88,15 @@ public class FromRepairController {
     	
     	StampDTO stampDTO = ConvertService.convertToStampDTO(stampView);
     	
+    	stampDTO.setDamaged(false);
+    	stampDTO.setAvailability(true);
+    	
     	StampRepairHistoryDTO stampRepairHistoryDTO = new StampRepairHistoryDTO();
     	stampRepairHistoryDTO.setRepairDate(LocalDateTime.now());
     	stampRepairHistoryDTO.setRepairPrice(price);
     	stampRepairHistoryDTO.setStampDTO(stampDTO);
+    	
+    	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/update", stampDTO);
     	
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stampRepairHistory/addNewRepairHistory", 
 				stampRepairHistoryDTO);

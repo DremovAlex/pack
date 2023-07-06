@@ -3,9 +3,11 @@ package oriseus.packserver.utils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import oriseus.packserver.dto.RoleDTO;
 import oriseus.packserver.dto.StampDTO;
 import oriseus.packserver.dto.StampDamageHistoryDTO;
 import oriseus.packserver.dto.StampRepairHistoryDTO;
+import oriseus.packserver.models.Role;
 import oriseus.packserver.models.Stamp;
 import oriseus.packserver.models.StampDamageHistory;
 import oriseus.packserver.models.StampRepairHistory;
@@ -36,5 +38,13 @@ public class Convert {
 	}
 	public StampRepairHistoryDTO convertToStampRepairHistoryDTO(StampRepairHistory stampRepairHistory) {
 		return modelMapper.map(stampRepairHistory, StampRepairHistoryDTO.class);
+	}
+
+	public Role convertToRole(RoleDTO roleDTO) {
+		return modelMapper.map(roleDTO, Role.class);
+	}
+
+	public RoleDTO convertToRoleDTO(Role role) {
+		return modelMapper.map(role, RoleDTO.class);
 	}
 }

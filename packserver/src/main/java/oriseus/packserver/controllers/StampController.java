@@ -1,6 +1,7 @@
 package oriseus.packserver.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +22,9 @@ import oriseus.packserver.utils.Convert;
 @RestController
 @RequestMapping("/stamps")
 public class StampController {
+	
+	@Value("${token}")	
+	private String token;
 
 	private final StampService stampService;
 	private final Convert convert;
@@ -32,31 +37,60 @@ public class StampController {
 	}
 	
 	@PostMapping("/addNewStamp")
-	public ResponseEntity<HttpStatus> addNewStamp(@RequestBody StampDTO stampDTO) {
+	public ResponseEntity<HttpStatus> addNewStamp(@RequestBody StampDTO stampDTO,
+												@RequestHeader("token") String headerToken) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
 		stampService.addNewStamp(convert.convertToStamp(stampDTO));
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
 	@GetMapping()
-	public ResponseEntity<StampWrapper> getAll() {
+	public ResponseEntity<StampWrapper> getAll(@RequestHeader("token") String headerToken) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
 		StampWrapper stampWrapper = stampService.findAll();
 		return new ResponseEntity<>(stampWrapper, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{name}")
-	public ResponseEntity<StampDTO> getByName(@PathVariable String name) {
+	public ResponseEntity<StampDTO> getByName(@PathVariable String name,
+											@RequestHeader("token") String headerToken) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
 		StampDTO stampDTO = convert.convertToStampDTO(stampService.findByName(name));	
 		return new ResponseEntity<>(stampDTO, HttpStatus.OK);
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<HttpStatus> updateStamp(@RequestBody StampDTO stampDTO) {
+	public ResponseEntity<HttpStatus> updateStamp(@RequestBody StampDTO stampDTO,
+												@RequestHeader("token") String headerToken) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
 		stampService.updateStamp(convert.convertToStamp(stampDTO));
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
 	@PostMapping("/delete")
-	public ResponseEntity<HttpStatus> deleteStamp(@RequestBody StampDTO stampDTO) {
+	public ResponseEntity<HttpStatus> deleteStamp(@RequestBody StampDTO stampDTO,
+												@RequestHeader("token") String headerToken) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
 		stampService.deleteStamp(convert.convertToStamp(stampDTO));
 		return ResponseEntity.ok(HttpStatus.OK);
 	}

@@ -10,7 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import oriseus.pack.service.PropertiesService;
+import oriseus.pack.dto.RoleDTO;
 import oriseus.pack.service.ConvertService;
+import oriseus.pack.service.HttpService;
 import oriseus.pack.service.WindowService;
 
 public class LoginController {
@@ -34,14 +36,25 @@ public class LoginController {
     private void switchToMainPage(ActionEvent event) throws IOException {
         login = loginField.getText();
     	password = passwordField.getText();
+    	
+    	if (login == null || login.isBlank() || password == null || password.isBlank()) {
+    		text.setText("Пожалуйста введите логин и пароль");
+    	}
+    	
+    	RoleDTO roleDTO = new RoleDTO();
+    	roleDTO.setName(login);
+    	roleDTO.setPassword(password);
+    	roleDTO.setRole("");
 
-        if (login.equals(PropertiesService.getProperties("RootLogin")) && password.equals(PropertiesService.getProperties("RootPassword"))) {
-            windowService.openNewWindow("/oriseus/pack/rootMainPage.fxml", "Главное окно", loginField);
-        } else if (login.equals(PropertiesService.getProperties("UserLogin")) && password.equals(PropertiesService.getProperties("UserLogin"))) {
-            windowService.openNewWindow("/oriseus/pack/userMainPage.fxml", "Главное окно", loginField);
-        } else {
-            text.setText("Вы ввели не правильный логин или пароль.");
-        }
+    	roleDTO = HttpService.sendAndGetObject(PropertiesService.getProperties("ServerUrl") + "/login" , roleDTO, RoleDTO.class);
+    	
+    	if (roleDTO.getRole().equals("root")) {
+    		windowService.openNewWindow("/oriseus/pack/rootMainPage.fxml", "Главное окно", loginField);
+    	} else if (roleDTO.getRole().equals("user")) {
+    		windowService.openNewWindow("/oriseus/pack/userMainPage.fxml", "Главное окно", loginField);
+    	} else {
+    		text.setText("Ошибка входа");
+    	}
     }
     
     @FXML

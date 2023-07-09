@@ -1,5 +1,6 @@
 package oriseus.pack.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -11,9 +12,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import oriseus.pack.App;
 import oriseus.pack.dto.StampDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
+import oriseus.pack.service.FilesService;
 import oriseus.pack.service.HttpService;
 import oriseus.pack.service.PropertiesService;
 import oriseus.pack.service.WindowService;
@@ -24,6 +28,10 @@ public class RootAddController {
     Button addButton;	
     @FXML
     Button exitButton;
+    @FXML
+    Button addImageButton;
+    @FXML
+    Button addTechnicalMapButton;
 	
 	
     @FXML
@@ -101,6 +109,35 @@ public class RootAddController {
         HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/addNewStamp", ConvertService.convertToStampDTO(stampView));
         
         windowService.closeWindow(addButton);
+    }
+    
+    @FXML
+    private void addImage() {   	
+    	if (technologicalMapNameField.getText().isBlank()) {
+    		warningText.setText("Пожалуйста, введите название технологической карты");
+    		return;
+    	}
+    	
+    	FileChooser fileChooser = new FileChooser();
+    	File selectedFile = fileChooser.showOpenDialog(addImageButton.getScene().getWindow());
+    	
+    	try {
+			FilesService.addImageOfTechnicalMap(selectedFile, technologicalMapNameField.getText());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @FXML
+    private void addTechnicalMap() {
+    	FileChooser fileChooser = new FileChooser();
+    	File selectedFile = fileChooser.showOpenDialog(addTechnicalMapButton.getScene().getWindow());
+
+    	try {
+			FilesService.addTechnicalMap(selectedFile, technologicalMapNameField.getText());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 	
     @FXML

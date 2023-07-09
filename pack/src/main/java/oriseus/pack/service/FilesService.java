@@ -59,6 +59,18 @@ public class FilesService {
     	}   	
     }
     
+    public static void deleteTechnicalMapImage(String technicalMapName) {
+    	File deleteDirectory = new File(PropertiesService.getProperties("TechnicalMapImagesLocation") + technicalMapName);
+    	if (!deleteDirectory.exists()) {
+    		return;
+    	} else {
+    		for (File file : deleteDirectory.listFiles()) {
+    			file.delete();
+    		}
+    		deleteDirectory.delete();
+    	}
+    }
+    
     public static void deleteDamagedTechnicalMapImage(String technicalMapName) {
     	File deleteDirectory = new File(PropertiesService.getProperties("TechnicalMapImagesLocation") + technicalMapName + "/damaged");
     	if (!deleteDirectory.exists()) {
@@ -81,6 +93,50 @@ public class FilesService {
     		}
     		deleteDirectory.delete();
     	}    	
+    }
+    
+    public static void deleteTechnicalMap(String technicalMapName) {
+    	File deleteDirectory = new File(PropertiesService.getProperties("TechnicalMapLocation") + technicalMapName);
+    	if (!deleteDirectory.exists()) {
+    		return;
+    	} else {
+    		for (File file : deleteDirectory.listFiles()) {
+    			file.delete();
+    		}
+    		deleteDirectory.delete();
+    	}    
+    }
+    
+    public static void addImageOfTechnicalMap(File imageOfTechnicalMap, String nameOfTechnicalMap) throws IOException {
+    	File directoryOfImageOfTechnicalMap = new File(PropertiesService.getProperties("TechnicalMapImagesLocation") + nameOfTechnicalMap);
+    	if (!directoryOfImageOfTechnicalMap.exists()) {
+    		directoryOfImageOfTechnicalMap.mkdir();
+    	}
+    	
+    	File newImageOfTechnicalMap = new File(PropertiesService.getProperties("TechnicalMapImagesLocation") + nameOfTechnicalMap + "/" + 
+    											nameOfTechnicalMap + PropertiesService.getProperties("TechnicalMapImagesSuffix"));
+
+    	if (!newImageOfTechnicalMap.exists()) {
+    		Files.copy(imageOfTechnicalMap.toPath(), newImageOfTechnicalMap.toPath());
+    	} else {
+			return;
+		}
+    }
+    
+    public static void addTechnicalMap(File technicalMap, String nameOfTechnicalMap) throws IOException {
+    	File directoryOfTechnicalMap = new File(PropertiesService.getProperties("TechnicalMapLocation") + nameOfTechnicalMap);
+    	if (!directoryOfTechnicalMap.exists()) {
+    		directoryOfTechnicalMap.mkdir();
+    	}
+    	
+    	File newTechnicalMap = new File(PropertiesService.getProperties("TechnicalMapLocation") + nameOfTechnicalMap + "/" + 
+    											nameOfTechnicalMap + PropertiesService.getProperties("TechnicalMapSuffix"));
+
+    	if (!newTechnicalMap.exists()) {
+    		Files.copy(technicalMap.toPath(), newTechnicalMap.toPath());
+    	} else {
+			return;
+		}
     }
     
     public static void getReportDamageHistory(ObservableList<StampDamageHistoryView> list, String stampName, File file) {

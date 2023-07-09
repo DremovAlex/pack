@@ -177,7 +177,11 @@ public class RootMainController {
     	}
     	
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/delete", ConvertService.convertToStampDTO(stampView));
-        FilesService.deleteStampImagesFromArchive(stampView.getTechnologicalMapName());
+        
+    	FilesService.deleteStampImagesFromArchive(stampView.getTechnologicalMapName());
+    	FilesService.deleteDamagedTechnicalMapImage(stampView.getTechnologicalMapName());
+    	FilesService.deleteTechnicalMapImage(stampView.getTechnologicalMapName());
+        FilesService.deleteTechnicalMap(stampView.getTechnologicalMapName());
     	
     	tableView.refresh();
     }

@@ -6,6 +6,7 @@ package oriseus.pack.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,6 +33,8 @@ public class DamageHistoryController {
     
     @FXML
     Text nameText;
+    @FXML
+    Text warningText;
     
     @FXML
     TableView tableView;
@@ -50,10 +53,13 @@ public class DamageHistoryController {
     Button takeReport;
     @FXML
     Button exitButton;
+    @FXML
+    Button imageButton;
     
     WindowService windowService;
     StampView stampView;
     ObservableList<StampDamageHistoryView> observableList;
+    StampDamageHistoryView stampDamageHistoryView;
     App app;
     
     @FXML
@@ -102,7 +108,21 @@ public class DamageHistoryController {
     
     @FXML
     private void initLabel() {
-        StampDamageHistoryView stampDamageHistoryDTO = (StampDamageHistoryView) tableView.getSelectionModel().getSelectedItem();
-        discriptionOfDamageTextArea.setText(stampDamageHistoryDTO.getDescriptionOfDamage());
+        stampDamageHistoryView = (StampDamageHistoryView) tableView.getSelectionModel().getSelectedItem();
+        discriptionOfDamageTextArea.setText(stampDamageHistoryView.getDescriptionOfDamage());
+    }
+    
+    @FXML
+    private void openImage() {
+    	stampDamageHistoryView = (StampDamageHistoryView) tableView.getSelectionModel().getSelectedItem();
+    	
+    	if (stampDamageHistoryView == null) {
+    		warningText.setText("Вы ничего не выбрали");
+    		return;
+    	}
+    	
+    	FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("ArchiveOfDamagedTechnicalMapsImages") + "/" + stampView.getTechnologicalMapName() + "/",
+    			stampDamageHistoryView.getNameOfTechnicalMap(),
+    			PropertiesService.getProperties("TechnicalMapImagesSuffix"));   	
     }
 }

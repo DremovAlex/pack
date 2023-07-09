@@ -39,8 +39,10 @@
       </Pane>
       <Pane prefHeight="70.0" prefWidth="871.0">
          <children>
-            <Button fx:id="exitButton" layoutX="785.0" layoutY="20.0" mnemonicParsing="false" onAction="#logout" text="Выйти" />
-            <Button fx:id="takeReport" layoutX="32.0" layoutY="20.0" mnemonicParsing="false" onAction="#takeReport" text="Отчет" />
+            <Button fx:id="exitButton" layoutX="33.0" layoutY="20.0" mnemonicParsing="false" onAction="#logout" text="Выйти" />
+            <Button fx:id="takeReport" layoutX="589.0" layoutY="20.0" mnemonicParsing="false" onAction="#takeReport" prefWidth="120.0" text="Отчет" />
+            <Button fx:id="imageButton" layoutX="724.0" layoutY="20.0" maxWidth="120.0" mnemonicParsing="false" onAction="#openImage" prefWidth="120.0" text="Изображение" />
+            <Text fx:id="warningText" layoutX="174.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="365.13000106811523" />
          </children>
       </Pane>
    </children>

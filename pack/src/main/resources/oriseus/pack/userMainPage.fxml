@@ -33,11 +33,12 @@
             </TableView>
             <Pane prefHeight="81.0" prefWidth="1395.0">
                <children>
-                  <Button fx:id="logoutButton" layoutX="61.0" layoutY="24.0" mnemonicParsing="false" onAction="#logout" text="Выйти" />
-                  <Button fx:id="setDamageButton" layoutX="1234.0" layoutY="24.0" mnemonicParsing="false" onAction="#setDamage" text="Повреждения" />
-                  <Button fx:id="buttonTechnicalMap" layoutX="996.0" layoutY="24.0" mnemonicParsing="false" onAction="#openTechnicalMap" text="Тех. карта" />
-                  <Button fx:id="changeStorageCellButton" layoutX="1095.0" layoutY="24.0" mnemonicParsing="false" onAction="#changeStorageCell" text="Сменить ячейку" />
+                  <Button fx:id="logoutButton" layoutX="61.0" layoutY="24.0" mnemonicParsing="false" onAction="#logout" prefWidth="100.0" text="Выйти" />
+                  <Button fx:id="setDamageButton" layoutX="1259.0" layoutY="24.0" mnemonicParsing="false" onAction="#setDamage" prefWidth="100.0" text="Отметить повреждения" />
+                  <Button fx:id="buttonTechnicalMap" layoutX="907.0" layoutY="24.0" mnemonicParsing="false" onAction="#openTechnicalMap" prefWidth="100.0" text="Тех. карта" />
+                  <Button fx:id="changeStorageCellButton" layoutX="1139.0" layoutY="24.0" mnemonicParsing="false" onAction="#changeStorageCell" prefWidth="100.0" text="Сменить ячейку" />
                   <Text fx:id="warningText" layoutX="556.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="283.13000106811523" />
+                  <Button fx:id="watchDamageButton" layoutX="1023.0" layoutY="24.0" mnemonicParsing="false" onAction="#watchDamage" prefWidth="100.0" text="Посмотреть повреждения" />
                </children>
             </Pane>
          </children>

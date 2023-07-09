@@ -33,17 +33,19 @@ public class UserMainController {
     Text warningText;
     
     @FXML
-    Button searchButton;
+    private Button searchButton;
     @FXML
-    Button logoutButton;
+    private Button logoutButton;
     @FXML
-    Button changeStorageCellButton;
+    private Button changeStorageCellButton;
     @FXML
-    Button buttonTechnicalMap;
+    private Button buttonTechnicalMap;
     @FXML
-    Button setDamageButton;
+    private Button setDamageButton;
     @FXML
     private Button updateButton;
+    @FXML
+    private Button watchDamageButton;
     
     @FXML
     private TableColumn<StampView, String> columnName;
@@ -96,10 +98,6 @@ public class UserMainController {
         	warningText.setText("Вы ничего не выбрали");
         	return;
         }
-        if(stampView.getDamaged().equals("Да")) {
-        	warningText.setText("На клише отсутствуют повреждения");
-        	return;
-        }
         
         windowService.openModalWindow(event, "/oriseus/pack/userSetDamage.fxml", "Детали");
         tableView.refresh();
@@ -134,11 +132,28 @@ public class UserMainController {
         	warningText.setText("Вы ничего не выбрали");
         	return;
         }
-        FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TechnicalMapLocation"),
+        FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TechnicalMapLocation") + stampView.getTechnologicalMapName() + "/",
         		stampView.getTechnologicalMapName(), PropertiesService.getProperties("TechnicalMapSuffix"));
     }        
     @FXML
     private void update() throws IOException {
     	initialize();
+    }
+    
+    @FXML
+    private void watchDamage() {
+    	stampView = (StampView) tableView.getSelectionModel().getSelectedItem();
+    	if (stampView == null) {
+        	warningText.setText("Вы ничего не выбрали");
+        	return;
+        }
+    	
+    	if (stampView.getDamaged().equals("Да")) {
+    		FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TechnicalMapImagesLocation"),
+					stampView.getName() + "/damaged/" + stampView.getName() + "_damaged",
+					PropertiesService.getProperties("TechnicalMapImagesSuffix"));
+    	} else {
+    		warningText.setText("На клише отсутствуют повреждения");    		
+		}
     }
 }

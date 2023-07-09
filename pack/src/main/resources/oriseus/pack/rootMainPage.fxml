@@ -40,9 +40,10 @@
             <Button fx:id="buttonDelete" layoutX="248.0" layoutY="21.0" mnemonicParsing="false" onAction="#delete" prefWidth="100.0" text="Удалить" />
             <Button fx:id="buttonRepairHistory" layoutX="1515.0" layoutY="22.0" mnemonicParsing="false" onAction="#openRepairHistory" prefWidth="100.0" text="Ремонты" />
             <Button fx:id="buttonDamageHistory" layoutX="1634.0" layoutY="21.0" mnemonicParsing="false" onAction="#openDamageHistory" prefWidth="100.0" text="Повреждения" />
-            <Button fx:id="buttonTechnicalMap" layoutX="1398.0" layoutY="22.0" mnemonicParsing="false" onAction="#openTechnicalMap" prefWidth="100.0" text="Тех. карта" />
+            <Button fx:id="watchDamageButton" layoutX="1398.0" layoutY="22.0" mnemonicParsing="false" onAction="#watchDamage" prefWidth="100.0" text="Посмотреть повреждения" />
             <Button fx:id="toRepair" layoutX="359.0" layoutY="22.0" mnemonicParsing="false" onAction="#toRepair" prefWidth="100.0" text="В ремонт" />
             <Button fx:id="fromRepair" layoutX="470.0" layoutY="22.0" mnemonicParsing="false" onAction="#fromRepair" prefWidth="100.0" text="В работу" />
+            <Button fx:id="buttonTechnicalMap" layoutX="1278.0" layoutY="22.0" mnemonicParsing="false" onAction="#openTechnicalMap" prefWidth="100.0" text="Тех. карта" />
          </children>
       </Pane>
    </children>

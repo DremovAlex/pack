@@ -7,6 +7,7 @@ public class StampDamageHistoryDTO {
 	private LocalDateTime dateOfDamageDetection;
     private Integer shift;
     private String descriptionOfDamage;
+    private String nameOfTechnicalMap;
     private StampDTO stampDTO;
 	
 	public LocalDateTime getDateOfDamageDetection() {
@@ -26,6 +27,12 @@ public class StampDamageHistoryDTO {
 	}
 	public void setShift(Integer shift) {
 		this.shift = shift;
+	}
+	public String getNameOfTechnicalMap() {
+		return nameOfTechnicalMap;
+	}
+	public void setNameOfTechnicalMap(String nameOfTechnicalMap) {
+		this.nameOfTechnicalMap = nameOfTechnicalMap;
 	}
 	public StampDTO getStampDTO() {
 		return stampDTO;

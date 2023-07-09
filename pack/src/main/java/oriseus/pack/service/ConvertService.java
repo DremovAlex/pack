@@ -57,6 +57,8 @@ public class ConvertService {
 		stampDamageHistoryView.setDateOfDamageDetection(new SimpleStringProperty(convertLocalDateTimeStringToString(stampDamageHistoryDTO.getDateOfDamageDetection())));
 		stampDamageHistoryView.setShift(new SimpleStringProperty(stampDamageHistoryDTO.getShift().toString()));
 		stampDamageHistoryView.setDescriptionOfDamage(new SimpleStringProperty(stampDamageHistoryDTO.getDescriptionOfDamage()));
+		stampDamageHistoryView.setNameOfTechnicalMap(stampDamageHistoryDTO.getNameOfTechnicalMap());
+		stampDamageHistoryView.setStampDTO(stampDamageHistoryDTO.getStampDTO());
 		return stampDamageHistoryView;
 	}
 	
@@ -65,7 +67,8 @@ public class ConvertService {
 		stampDamageHistoryDTO.setDateOfDamageDetection(convertStringToLocalDateTime(stampDamageHistoryView.getDateOfDamageDetection()));
 		stampDamageHistoryDTO.setShift(Integer.parseInt(stampDamageHistoryView.getShift()));
 		stampDamageHistoryDTO.setDescriptionOfDamage(stampDamageHistoryView.getDescriptionOfDamage());
-		//stampDTO == null
+		stampDamageHistoryDTO.setNameOfTechnicalMap(stampDamageHistoryView.getNameOfTechnicalMap());
+		stampDamageHistoryDTO.setStampDTO(stampDamageHistoryView.getStampDTO());
 		return stampDamageHistoryDTO;
 	}
 	

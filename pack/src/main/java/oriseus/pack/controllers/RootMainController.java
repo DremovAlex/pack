@@ -177,7 +177,8 @@ public class RootMainController {
     	}
     	
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/delete", ConvertService.convertToStampDTO(stampView));
-        
+        FilesService.deleteStampImagesFromArchive(stampView.getTechnologicalMapName());
+    	
     	tableView.refresh();
     }
     
@@ -188,7 +189,7 @@ public class RootMainController {
         	warningText.setText("Вы ничего не выбрали");
         	return;
         }
-        FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TechnicalMapLocation"),
+        FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TechnicalMapLocation") + stampView.getTechnologicalMapName() + "/",
         		stampView.getTechnologicalMapName(), PropertiesService.getProperties("TechnicalMapSuffix"));
     }
     
@@ -221,5 +222,22 @@ public class RootMainController {
     @FXML
     private void update() throws IOException {
     	initialize();
+    }
+    
+    @FXML
+    private void watchDamage() {
+    	stampView = (StampView) tableView.getSelectionModel().getSelectedItem();
+    	if (stampView == null) {
+        	warningText.setText("Вы ничего не выбрали");
+        	return;
+        }
+    	
+    	if (stampView.getDamaged().equals("Да")) {
+    		FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TechnicalMapImagesLocation"),
+					stampView.getName() + "/damaged/" + stampView.getName() + "_damaged",
+					PropertiesService.getProperties("TechnicalMapImagesSuffix"));
+    	} else {
+    		warningText.setText("На клише отсутствуют повреждения");    		
+		}
     }
 }

@@ -17,6 +17,7 @@ create table StampDamageHistory(
 	dateofdamagedetection timestamp not null,
 	shift int not null,
 	descriptionofdamage text,
+	nameoftechnicalmap varchar(50),
 	stamp int references Stamp(id) on delete cascade
 );
 

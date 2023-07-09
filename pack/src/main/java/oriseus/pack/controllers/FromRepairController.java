@@ -4,9 +4,11 @@
  */
 package oriseus.pack.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Iterator;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -19,6 +21,7 @@ import oriseus.pack.dto.StampDTO;
 import oriseus.pack.dto.StampRepairHistoryDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
+import oriseus.pack.service.FilesService;
 import oriseus.pack.service.HttpService;
 import oriseus.pack.service.PropertiesService;
 import oriseus.pack.service.WindowService;
@@ -97,10 +100,11 @@ public class FromRepairController {
     	stampRepairHistoryDTO.setStampDTO(stampDTO);
     	
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/update", stampDTO);
-    	
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stampRepairHistory/addNewRepairHistory", 
 				stampRepairHistoryDTO);
         
+    	FilesService.deleteDamagedTechnicalMapImage(stampView.getTechnologicalMapName());
+    	
         windowService.closeWindow(confirmButton);
     }
     

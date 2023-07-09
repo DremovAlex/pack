@@ -2,7 +2,6 @@ package oriseus.packserver.models;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +28,9 @@ public class StampDamageHistory {
 	
 	@Column(name = "descriptionofdamage")
     private String descriptionOfDamage;
+	
+	@Column(name = "nameoftechnicalmap")
+	private String nameOfTechnicalMap;
 	
 	@ManyToOne
 	@JoinColumn(name = "stamp", referencedColumnName = "id")
@@ -57,6 +59,12 @@ public class StampDamageHistory {
 	}
 	public void setShift(Integer shift) {
 		this.shift = shift;
+	}
+	public String getNameOfTechnicalMap() {
+		return nameOfTechnicalMap;
+	}
+	public void setNameOfTechnicalMap(String nameOfTechnicalMap) {
+		this.nameOfTechnicalMap = nameOfTechnicalMap;
 	}
 	public Stamp getStamp() {
 		return stamp;

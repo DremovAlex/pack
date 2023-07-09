@@ -4,7 +4,9 @@
  */
 package oriseus.pack.controllers;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -16,10 +18,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import oriseus.pack.App;
 import oriseus.pack.dto.StampDTO;
 import oriseus.pack.dto.StampDamageHistoryDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
+import oriseus.pack.service.FilesService;
 import oriseus.pack.service.HttpService;
 import oriseus.pack.service.PropertiesService;
 import oriseus.pack.service.WindowService;
@@ -34,6 +38,8 @@ public class UserSetDamageController {
     Button exitButton;
     @FXML
     Button confirmButton;
+    @FXML
+    Button imageButton;
     
     @FXML
     TextField shiftNumberTextField;
@@ -51,11 +57,13 @@ public class UserSetDamageController {
     
     WindowService windowService;
     StampView stampView;
+    App app;
     
     @FXML
     private void initialize() {
         windowService = new WindowService();
         stampView = UserMainController.stampView;
+        app = new App();
         
         nameText.setText(stampView.getName());
         isDamageCheckBox.setSelected(ConvertService.convertStringToBoolean(stampView.getDamaged()));
@@ -76,15 +84,19 @@ public class UserSetDamageController {
 		}
             
         StampDamageHistoryView stampDamageHistoryView = new StampDamageHistoryView();
-        stampDamageHistoryView.setDateOfDamageDetection(new SimpleStringProperty(ConvertService.convertLocalDateTimeStringToString(LocalDateTime.now())));
+        LocalDateTime localDateTime = LocalDateTime.now();
+        stampDamageHistoryView.setDateOfDamageDetection(new SimpleStringProperty(ConvertService.convertLocalDateTimeStringToString(localDateTime)));
         stampDamageHistoryView.setShift(new SimpleStringProperty(shiftNumberTextField.getText()));
         stampDamageHistoryView.setDescriptionOfDamage(new SimpleStringProperty(damageTextArea.getText())); 
+        stampDamageHistoryView.setNameOfTechnicalMap(stampView.getTechnologicalMapName() + ":" + localDateTime);
         
     	StampDTO stampDTO = ConvertService.convertToStampDTO(stampView);
     	stampDTO.setDamaged(isDamageCheckBox.isSelected());
     	StampDamageHistoryDTO stampDamageHistoryDTO = ConvertService.convertToStampDamageHistoryDTO(stampDamageHistoryView);
     	stampDamageHistoryDTO.setStampDTO(stampDTO);
-    	    	
+    	
+    	FilesService.sendImageToArchive(stampView.getTechnologicalMapName(), stampView.getTechnologicalMapName() + ":" + localDateTime);
+    	
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stampDamageHistory/addNewDamageHistory", 
     			stampDamageHistoryDTO);
 
@@ -94,5 +106,15 @@ public class UserSetDamageController {
     @FXML
     private void exit() throws IOException {
         windowService.closeWindow(exitButton);
+    }
+    
+    @FXML
+    private void openImage() throws IOException {
+    	FilesService.prepairToSetDamageInImage(PropertiesService.getProperties("TechnicalMapImagesLocation"),
+    			stampView.getName(), PropertiesService.getProperties("TechnicalMapImagesSuffix"));
+    	
+    	FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TechnicalMapImagesLocation"),
+    			stampView.getName() + "/damaged/" + stampView.getName() + "_damaged",
+    			PropertiesService.getProperties("TechnicalMapImagesSuffix"));   	
     }
 }

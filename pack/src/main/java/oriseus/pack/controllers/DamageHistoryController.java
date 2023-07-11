@@ -90,9 +90,9 @@ public class DamageHistoryController {
         
         FilesService.getReportDamageHistory(observableList, stampView.getName(), file);
         
-        FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TempReportFileLocation"),        
-        											PropertiesService.getProperties("TempReportFileName"),
-        											PropertiesService.getProperties("TempReportFileSuffix"));
+//        FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TempReportFileLocation"),        
+//        											PropertiesService.getProperties("TempReportFileName"),
+//        											PropertiesService.getProperties("TempReportFileSuffix"));
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
@@ -121,8 +121,8 @@ public class DamageHistoryController {
     		return;
     	}
     	
-    	FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("ArchiveOfDamagedTechnicalMapsImages") + "/" + stampView.getTechnologicalMapName() + "/",
-    			stampDamageHistoryView.getNameOfTechnicalMap(),
-    			PropertiesService.getProperties("TechnicalMapImagesSuffix"));   	
+//    	FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("ArchiveOfDamagedTechnicalMapsImages") + "/" + stampView.getTechnologicalMapName() + "/",
+//    			stampDamageHistoryView.getNameOfTechnicalMap(),
+//    			PropertiesService.getProperties("TechnicalMapImagesSuffix"));   	
     }
 }

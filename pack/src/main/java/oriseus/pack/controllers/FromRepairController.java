@@ -103,7 +103,8 @@ public class FromRepairController {
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stampRepairHistory/addNewRepairHistory", 
 				stampRepairHistoryDTO);
         
-    	FilesService.deleteDamagedTechnicalMapImage(stampView.getTechnologicalMapName());
+    	HttpService.sendGetRequest(PropertiesService.getProperties("ServerUrl") + "/file/fromRepair", 
+    			stampView.getTechnologicalMapName() + PropertiesService.getProperties("TechnicalMapImagesSuffix"), stampView.getName());
     	
         windowService.closeWindow(confirmButton);
     }

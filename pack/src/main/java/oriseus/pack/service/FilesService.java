@@ -7,9 +7,12 @@ package oriseus.pack.service;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 import javafx.application.HostServices;
 import javafx.collections.ObservableList;
 import oriseus.pack.modelsViews.*;
@@ -22,10 +25,18 @@ public class FilesService {
 	
 	private FilesService() {}
     
-    public static void openFile(HostServices host, String location, String fileName, String suffix) {
-        String path = location + fileName + suffix;
-        Path partPath = Paths.get(path);
-        host.showDocument(partPath.toUri().toString());
+    public static void openFile(HostServices host, File file) throws IOException {    	
+    	File tempFile = new File(PropertiesService.getProperties("TempReportFileLocation") + file.getName());
+        Files.copy(file.toPath(), tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    	host.showDocument(tempFile.toString());
+    	
+    	try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+        
+    	tempFile.delete();
     }
     
     // Path - location + name of stamp + "/damaged/" + name of stamp + "_damaged" + suffix 

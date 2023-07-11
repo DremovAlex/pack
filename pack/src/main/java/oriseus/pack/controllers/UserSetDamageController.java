@@ -7,6 +7,7 @@ package oriseus.pack.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -35,29 +36,31 @@ import oriseus.pack.service.WindowService;
 public class UserSetDamageController {
     
     @FXML
-    Button exitButton;
+    private Button exitButton;
     @FXML
-    Button confirmButton;
+    private Button confirmButton;
     @FXML
-    Button imageButton;
+    private Button imageButton;
     
     @FXML
-    TextField shiftNumberTextField;
+    private TextField shiftNumberTextField;
     
     @FXML
-    CheckBox isDamageCheckBox;
+    private CheckBox isDamageCheckBox;
     
     @FXML
-    TextArea damageTextArea;
+    private TextArea damageTextArea;
     
     @FXML
-    Text nameText;
+    private Text nameText;
     @FXML
-    Text warningText;
+    private Text warningText;
     
-    WindowService windowService;
-    StampView stampView;
-    App app;
+    private File damagedImage;
+    private File tempFile;
+    private WindowService windowService;
+    private StampView stampView;
+    private App app;
     
     @FXML
     private void initialize() {
@@ -95,11 +98,15 @@ public class UserSetDamageController {
     	StampDamageHistoryDTO stampDamageHistoryDTO = ConvertService.convertToStampDamageHistoryDTO(stampDamageHistoryView);
     	stampDamageHistoryDTO.setStampDTO(stampDTO);
     	
-    	FilesService.sendImageToArchive(stampView.getTechnologicalMapName(), stampView.getTechnologicalMapName() + ":" + localDateTime);
+    	
     	
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stampDamageHistory/addNewDamageHistory", 
     			stampDamageHistoryDTO);
-
+        HttpService.sendFile(PropertiesService.getProperties("ServerUrl") + "/file/damagedImageOfTechnicalMap", 
+        		tempFile, stampView.getName());
+    	
+        tempFile.delete();
+        
         windowService.closeWindow(confirmButton);
     }
     
@@ -110,11 +117,19 @@ public class UserSetDamageController {
     
     @FXML
     private void openImage() throws IOException {
-    	FilesService.prepairToSetDamageInImage(PropertiesService.getProperties("TechnicalMapImagesLocation"),
-    			stampView.getName(), PropertiesService.getProperties("TechnicalMapImagesSuffix"));
+    	damagedImage = HttpService.getFile(PropertiesService.getProperties("ServerUrl") + "/file/damagedImageOfTechnicalMap", 
+        		stampView.getTechnologicalMapName() + PropertiesService.getProperties("TechnicalMapImagesSuffix"), stampView.getName());
+        
+    	tempFile = new File(PropertiesService.getProperties("TempReportFileLocation") + damagedImage.getName());
+    	Files.copy(damagedImage.toPath(), tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
     	
-    	FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TechnicalMapImagesLocation"),
-    			stampView.getName() + "/damaged/" + stampView.getName() + "_damaged",
-    			PropertiesService.getProperties("TechnicalMapImagesSuffix"));   	
+        app.getHostServices().showDocument(tempFile.toString());
+        
+        try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+    	
     }
 }

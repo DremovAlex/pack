@@ -98,14 +98,20 @@
             <TextArea fx:id="notesTextArea" layoutX="23.0" layoutY="41.0" prefHeight="119.0" prefWidth="590.0" />
          </children>
       </Pane>
-      <Pane prefHeight="70.0" prefWidth="635.0">
+      <Pane prefHeight="124.0" prefWidth="635.0">
+         <children>
+            <Button fx:id="addImageButton" layoutX="509.0" layoutY="73.0" mnemonicParsing="false" onAction="#addImage" prefWidth="100.0" text="Изображение" />
+            <Button fx:id="addTechnicalMapButton" layoutX="509.0" layoutY="14.0" mnemonicParsing="false" onAction="#addTechnicalMap" prefWidth="100.0" text="Добавить тех. карту" />
+            <Text fx:id="technicalMapText" layoutX="83.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="312.13000106811523" />
+            <Text fx:id="technicalMapImageText" layoutX="83.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="312.13000106811523" />
+         </children>
+      </Pane>
+      <Pane prefHeight="71.0" prefWidth="635.0">
          <children>
             <Button fx:id="exitButton" layoutX="24.0" layoutY="22.0" mnemonicParsing="false" onAction="#exit" prefWidth="100.0" text="Отмена" />
             <Button fx:id="addButton" layoutX="512.0" layoutY="22.0" mnemonicParsing="false" onAction="#add" prefWidth="100.0" text="Добавить" />
             <Text fx:id="warningText" layoutX="144.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="347.13000106811523" />
             <Text fx:id="warningText" layoutX="144.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="347.13000106811523" />
-            <Button fx:id="addImageButton" layoutX="401.0" layoutY="22.0" mnemonicParsing="false" onAction="#addImage" prefWidth="100.0" text="Изображение" />
-            <Button fx:id="addTechnicalMapButton" layoutX="289.0" layoutY="22.0" mnemonicParsing="false" onAction="#addTechnicalMap" prefWidth="100.0" text="Добавить тех. карту" />
          </children>
       </Pane>
    </children>

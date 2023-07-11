@@ -1,5 +1,6 @@
 package oriseus.pack.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -193,8 +194,10 @@ public class RootMainController {
         	warningText.setText("Вы ничего не выбрали");
         	return;
         }
-        FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TechnicalMapLocation") + stampView.getTechnologicalMapName() + "/",
-        		stampView.getTechnologicalMapName(), PropertiesService.getProperties("TechnicalMapSuffix"));
+        File file = HttpService.getFile(PropertiesService.getProperties("ServerUrl") + "/file/technicalMap", 
+        		stampView.getTechnologicalMapName() + PropertiesService.getProperties("TechnicalMapSuffix"), stampView.getName());
+        
+        FilesService.openFile(app.getHostServices(), file);        
     }
     
     @FXML
@@ -229,7 +232,7 @@ public class RootMainController {
     }
     
     @FXML
-    private void watchDamage() {
+    private void watchDamage() throws IOException {
     	stampView = (StampView) tableView.getSelectionModel().getSelectedItem();
     	if (stampView == null) {
         	warningText.setText("Вы ничего не выбрали");
@@ -237,9 +240,9 @@ public class RootMainController {
         }
     	
     	if (stampView.getDamaged().equals("Да")) {
-    		FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TechnicalMapImagesLocation"),
-					stampView.getName() + "/damaged/" + stampView.getName() + "_damaged",
-					PropertiesService.getProperties("TechnicalMapImagesSuffix"));
+    		File damagedImage = HttpService.getFile(PropertiesService.getProperties("ServerUrl") + "/file/damagedImageOfTechnicalMap", 
+            		stampView.getTechnologicalMapName() + PropertiesService.getProperties("TechnicalMapImagesSuffix"), stampView.getName());
+    		FilesService.openFile(app.getHostServices(), damagedImage);
     	} else {
     		warningText.setText("На клише отсутствуют повреждения");    		
 		}

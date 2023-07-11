@@ -20,12 +20,15 @@ public class StampService {
 	
 	private final StampRepository stampRepository;
 	private final Convert convert;
+	private final FileService fileService;
 	
 	@Autowired
 	public StampService(StampRepository stampRepository,
-			Convert convert) {
+						Convert convert,
+						FileService fileService) {
 		this.stampRepository = stampRepository;
 		this.convert = convert;
+		this.fileService = fileService;
 	}
 	
 	@Transactional
@@ -52,7 +55,6 @@ public class StampService {
 	@Transactional
 	public void updateStamp(Stamp stamp) {
 		Stamp oldStamp = stampRepository.findById(stamp.getId()).orElseThrow();
-//		stamp.setId(oldStamp.getId());
 		stamp.setAddingDate(oldStamp.getAddingDate());		
 		stampRepository.save(stamp);
 	}
@@ -60,6 +62,10 @@ public class StampService {
 	@Transactional
 	public void deleteStamp(Stamp stamp) {
 		Stamp deletedStamp = stampRepository.findByName(stamp.getName()).orElseThrow();
+		
+		fileService.deleteTechnicalMap(stamp.getName());
+		fileService.deleteImageOfTechnicalMap(stamp.getName());
+		
 		stampRepository.delete(deletedStamp);
 	}
 

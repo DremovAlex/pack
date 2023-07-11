@@ -2,6 +2,8 @@ package oriseus.pack.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -25,42 +27,48 @@ import oriseus.pack.service.WindowService;
 public class RootAddController {
 
     @FXML
-    Button addButton;	
+    private Button addButton;	
     @FXML
-    Button exitButton;
+    private Button exitButton;
     @FXML
-    Button addImageButton;
+    private Button addImageButton;
     @FXML
-    Button addTechnicalMapButton;
+    private Button addTechnicalMapButton;
 	
 	
     @FXML
-    TextField nameField;
+    private TextField nameField;
     @FXML
-    TextField storageCellField;
+    private TextField storageCellField;
     @FXML
-    TextField technologicalMapNameField;
+    private TextField technologicalMapNameField;
     @FXML
-    TextField rubPriceTextField;
+    private TextField rubPriceTextField;
     @FXML
-    TextField kopPriceTextField;
+    private TextField kopPriceTextField;
     
     @FXML
-    CheckBox isDamageCheckBox;
+    private CheckBox isDamageCheckBox;
     @FXML
-    CheckBox isRepairPackCheckBox;
+    private CheckBox isRepairPackCheckBox;
     @FXML
-    CheckBox isAvailabilityCheckBox;
+    private CheckBox isAvailabilityCheckBox;
     @FXML
-    CheckBox isDisposalCheckBox;
+    private CheckBox isDisposalCheckBox;
     
     @FXML
-    TextArea notesTextArea;
+    private TextArea notesTextArea;
     
     @FXML
-    Text warningText;
+    private Text warningText;
+    @FXML
+    private Text technicalMapText;
+    @FXML
+    private Text technicalMapImageText;
         
-    WindowService windowService;
+    private WindowService windowService;
+    private File technicalMapFile;
+    private File technicalMapImageFile;
         
     @FXML
     private void initialize() {
@@ -91,6 +99,11 @@ public class RootAddController {
 			warningText.setText("Пожалуйста укажите коректную сумму");
 			return;
 		}
+    	
+    	if (technicalMapFile == null || technicalMapImageFile == null) {
+    		warningText.setText("Вы не выбрали файл тех. карты или изображение тех. карты");
+    		return;
+    	}
     	   	
     	Long price = Long.parseLong(rub + kop);
     	
@@ -106,38 +119,64 @@ public class RootAddController {
         stampView.setAddingDate(new SimpleStringProperty(ConvertService.convertLocalDateTimeStringToString(LocalDateTime.now())));
         stampView.setNotes(new SimpleStringProperty(notesTextArea.getText()));
 		
-        HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/addNewStamp", ConvertService.convertToStampDTO(stampView));
+        HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/addNewStamp", ConvertService.convertToStampDTO(stampView));        
+        HttpService.sendFile(PropertiesService.getProperties("ServerUrl") + "/file/technicalMap", technicalMapFile, nameField.getText());   
+        HttpService.sendFile(PropertiesService.getProperties("ServerUrl") + "/file/imageOfTechnicalMap", technicalMapImageFile, nameField.getText());
+        HttpService.sendFile(PropertiesService.getProperties("ServerUrl") + "/file/damagedImageOfTechnicalMap", technicalMapImageFile, nameField.getText());
         
         windowService.closeWindow(addButton);
     }
     
     @FXML
-    private void addImage() {   	
-    	if (technologicalMapNameField.getText().isBlank()) {
-    		warningText.setText("Пожалуйста, введите название технологической карты");
+    private void addImage() {   	    	
+    	if (nameField.getText().isBlank()) {
+    		warningText.setText("Пожалуйста, укажите номер клише");
     		return;
     	}
     	
-    	FileChooser fileChooser = new FileChooser();
-    	File selectedFile = fileChooser.showOpenDialog(addImageButton.getScene().getWindow());
+    	if (technologicalMapNameField.getText().isBlank()) {
+    		warningText.setText("Пожалуйста, укажите номер технологической карты");
+    		return;
+    	}
     	
-    	try {
-			FilesService.addImageOfTechnicalMap(selectedFile, technologicalMapNameField.getText());
+    	FileChooser fileChooser = new FileChooser();   	
+    	File selectedFile = fileChooser.showOpenDialog(addTechnicalMapButton.getScene().getWindow());   	
+    	
+    	if (selectedFile == null) return;
+    	
+    	technicalMapImageFile = new File(PropertiesService.getProperties("TempReportFileLocation") + technologicalMapNameField.getText() + PropertiesService.getProperties("TechnicalMapImagesSuffix"));
+		try {
+			Files.copy(selectedFile.toPath(), technicalMapImageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			technicalMapImageText.setText(technicalMapImageFile.getName());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
     }
     
     @FXML
-    private void addTechnicalMap() {
-    	FileChooser fileChooser = new FileChooser();
-    	File selectedFile = fileChooser.showOpenDialog(addTechnicalMapButton.getScene().getWindow());
-
+    private void addTechnicalMap() {  	
+    	if (nameField.getText().isBlank()) {
+    		warningText.setText("Пожалуйста, укажите номер клише");
+    		return;
+    	}
+    	
+    	if (technologicalMapNameField.getText().isBlank()) {
+    		warningText.setText("Пожалуйста, укажите номер технологической карты");
+    		return;
+    	}
+    	
+    	FileChooser fileChooser = new FileChooser();    	
+    	File selectedFile = fileChooser.showOpenDialog(addTechnicalMapButton.getScene().getWindow());   	
+    	
+    	if (selectedFile == null) return;
+    	
+    	technicalMapFile = new File(PropertiesService.getProperties("TempReportFileLocation") + technologicalMapNameField.getText() + PropertiesService.getProperties("TechnicalMapSuffix"));
     	try {
-			FilesService.addTechnicalMap(selectedFile, technologicalMapNameField.getText());
-		} catch (IOException e) {
+			Files.copy(selectedFile.toPath(), technicalMapFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			technicalMapText.setText(technicalMapFile.getName());
+    	} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}   	
     }
 	
     @FXML

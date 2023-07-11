@@ -89,11 +89,11 @@ public class RepairHistoryController {
         PropertiesService.getProperties("TempReportFileSuffix"));
         
         FilesService.getReportRepairHistory(observableList, file, sumText.getText(), stampView.getName());
-        FilesService.openFile(app.getHostServices(), 
+//        FilesService.openFile(app.getHostServices(), 
         
-        PropertiesService.getProperties("TempReportFileLocation"),
-        PropertiesService.getProperties("TempReportFileName"),
-        PropertiesService.getProperties("TempReportFileSuffix"));
+ //       PropertiesService.getProperties("TempReportFileLocation"),
+//        PropertiesService.getProperties("TempReportFileName"),
+//        PropertiesService.getProperties("TempReportFileSuffix"));
         
         try {
             Thread.sleep(2000);

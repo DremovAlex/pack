@@ -57,7 +57,7 @@ public class RootMainController {
     @FXML
     private TextField searchTextField;
     @FXML
-    Text warningText;
+    private Text warningText;
     
     @FXML
     private TableColumn<StampView, String> columnName;
@@ -81,13 +81,13 @@ public class RootMainController {
     private TableColumn<StampView, String> columnNotes;
 	
     public static StampView stampView;
-    WindowService windowService;
-    ObservableList<StampView> observableList;
-    App app;
-    HostServices host;
-    String location;
-    String suffix;
-    String path;
+    private WindowService windowService;
+    private ObservableList<StampView> observableList;
+    private App app;
+    private HostServices host;
+    private String location;
+    private String suffix;
+    private String path;
     
     @FXML
     private void initialize() {

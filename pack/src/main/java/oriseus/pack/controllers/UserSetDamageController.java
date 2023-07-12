@@ -97,14 +97,12 @@ public class UserSetDamageController {
     	stampDTO.setDamaged(isDamageCheckBox.isSelected());
     	StampDamageHistoryDTO stampDamageHistoryDTO = ConvertService.convertToStampDamageHistoryDTO(stampDamageHistoryView);
     	stampDamageHistoryDTO.setStampDTO(stampDTO);
-    	
-    	
-    	
+    	   	
+    	HttpService.sendFile(PropertiesService.getProperties("ServerUrl") + "/file/damagedImageOfTechnicalMap", 
+        		tempFile, stampView.getName());
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stampDamageHistory/addNewDamageHistory", 
     			stampDamageHistoryDTO);
-        HttpService.sendFile(PropertiesService.getProperties("ServerUrl") + "/file/damagedImageOfTechnicalMap", 
-        		tempFile, stampView.getName());
-    	
+        
         tempFile.delete();
         
         windowService.closeWindow(confirmButton);

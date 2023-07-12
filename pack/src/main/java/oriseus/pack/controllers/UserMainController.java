@@ -64,13 +64,13 @@ public class UserMainController {
     private TableColumn<StampView, String> columnNotes;
             
     public static StampView stampView;
-    WindowService windowService;
-    App app;
-    ObservableList<StampView> observableList;
-    HostServices host;
-    String location;
-    String suffix;
-    String path;
+    private WindowService windowService;
+    private App app;
+    private ObservableList<StampView> observableList;
+    private HostServices host;
+    private String location;
+    private String suffix;
+    private String path;
     
     @FXML
     private void initialize() {

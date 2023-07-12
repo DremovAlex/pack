@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -86,10 +89,33 @@ public class FileService {
 		return true;
 	}
 	
+	public boolean sendDamagedImageToArchive(String owner, String dateOfSending, String fileName) {
+		File directory = new File(archiveImages + owner);
+		if (!directory.exists()) {
+			directory.mkdir();
+		}
 	
+		File damagedImage = new File(technicalMapsImagesFolder + owner + "/damaged/" + fileName);
+		File archiveImage = new File(directory + "/" + dateOfSending + "_" + fileName);
+		
+		try {
+			Files.copy(damagedImage.toPath(), archiveImage.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	
+	public boolean cleanArchive(String owner) {
+		deleteFile(archiveImages, owner);
+		return true;
+	}
 	
-	
+	public List<File> getDamagedImagesFromArchive(String owner) {
+		File directory = new File(archiveImages + owner);
+		return Arrays.asList(directory.listFiles());
+	}
 	
 	private void saveFile(File file, String path, String fileName) throws IOException {
 		File directory = new File(path);

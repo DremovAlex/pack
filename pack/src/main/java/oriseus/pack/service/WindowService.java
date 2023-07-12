@@ -16,9 +16,6 @@ import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import oriseus.pack.controllers.RootMainController;
-
-
 
 public class WindowService {
     
@@ -46,6 +43,10 @@ public class WindowService {
         stage.setResizable(false);
         stage.show();
         
+        stage.setOnCloseRequest(e -> {
+            FilesService.deleteTempFiles();
+        });
+        
         Stage oldStage = (Stage) control.getScene().getWindow();
         oldStage.close();
     }
@@ -70,11 +71,21 @@ public class WindowService {
         stage.initModality(Modality.WINDOW_MODAL);
         stage.setResizable(false);
         stage.initOwner(((Node)event.getSource()).getScene().getWindow());
+ 
         stage.showAndWait();
+        
+        stage.setOnCloseRequest(e -> {
+            FilesService.deleteTempFiles();
+        });
     }
 
 	public void closeWindow(Control control) {
         Stage stage = (Stage) control.getScene().getWindow();
+        
+        stage.setOnCloseRequest(e -> {
+            FilesService.deleteTempFiles();
+        });
+        
         stage.close();
     }
     

@@ -33,23 +33,23 @@ import oriseus.pack.service.WindowService;
 public class FromRepairController {
     
     @FXML
-    Text nameText;
+    private Text nameText;
     
     @FXML
-    TextField rubPriceTextField;
+    private TextField rubPriceTextField;
     @FXML
-    TextField kopPriceTextField;
+    private TextField kopPriceTextField;
     
     @FXML
-    Text warningText;
+    private Text warningText;
     
     @FXML
-    Button exitButton;
+    private Button exitButton;
     @FXML
-    Button confirmButton;
+    private Button confirmButton;
     
-    StampView stampView;
-    WindowService windowService;
+    private StampView stampView;
+    private WindowService windowService;
     
     @FXML
     private void initialize() {

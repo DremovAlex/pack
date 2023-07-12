@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import oriseus.packserver.dto.StampDamageHistoryDTO;
 import oriseus.packserver.dto.StampDamageHistoryWrapper;
+import oriseus.packserver.services.FileService;
 import oriseus.packserver.services.StampDamageHistoryService;
 import oriseus.packserver.utils.Convert;
 
@@ -23,15 +24,20 @@ public class StampDamageHistoryController {
 	
 	@Value("${token}")	
 	private String token;
+	@Value("${TechnicalMapImagesSuffix}")
+	private String TechnicalMapImagesSuffix;
 	
 	private final StampDamageHistoryService stampDamageHistoryService;
 	private final Convert convert;
+	private final FileService fileService;
 	
 	@Autowired
 	public StampDamageHistoryController(StampDamageHistoryService stampDamageHistoryService,
-										Convert convert) {
+										Convert convert,
+										FileService fileService) {
 		this.stampDamageHistoryService = stampDamageHistoryService;
 		this.convert = convert;
+		this.fileService = fileService;
 	}
 	
 	@PostMapping("/addNewDamageHistory")
@@ -43,6 +49,10 @@ public class StampDamageHistoryController {
 		}
 		
 		stampDamageHistoryService.addDamageHistory(convert.convertToStampDamageHistory(stampDamageHistoryDTO));
+		fileService.sendDamagedImageToArchive(stampDamageHistoryDTO.getStampDTO().getName(), 
+											  stampDamageHistoryDTO.getDateOfDamageDetection().toString(), 
+											  stampDamageHistoryDTO.getStampDTO().getTechnologicalMapName() + TechnicalMapImagesSuffix);
+		
 		return ResponseEntity.ok(HttpStatus.OK);		
 	}
 	

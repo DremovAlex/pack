@@ -63,6 +63,7 @@ public class StampService {
 	public void deleteStamp(Stamp stamp) {
 		Stamp deletedStamp = stampRepository.findByName(stamp.getName()).orElseThrow();
 		
+		fileService.cleanArchive(stamp.getName());
 		fileService.deleteTechnicalMap(stamp.getName());
 		fileService.deleteImageOfTechnicalMap(stamp.getName());
 		

@@ -35,8 +35,13 @@ public class FilesService {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-        
-    	tempFile.delete();
+    }
+    
+    public static void deleteTempFiles() {
+    	File tempDirectory = new File(PropertiesService.getProperties("TempReportFileLocation"));
+    	for (File file : tempDirectory.listFiles()) {
+    		file.delete();
+    	}
     }
     
     // Path - location + name of stamp + "/damaged/" + name of stamp + "_damaged" + suffix 

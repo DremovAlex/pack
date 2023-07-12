@@ -33,27 +33,27 @@ import oriseus.pack.service.WindowService;
 public class RepairHistoryController {
     
     @FXML
-    Text nameText;
+    private Text nameText;
     @FXML
-    Text sumText;
+    private Text sumText;
     
     @FXML
-    TableView tableView;
+    private TableView tableView;
     
     @FXML
-    TableColumn repairDateColumn;
+    private TableColumn repairDateColumn;
     @FXML
-    TableColumn repairPriceColumn;
+    private TableColumn repairPriceColumn;
     
     @FXML
-    Button takeReport;
+    private Button takeReport;
     @FXML
-    Button exitButton;
+    private Button exitButton;
     
-    WindowService windowService;
-    StampView stampView;
-    ObservableList<StampRepairHistoryView> observableList;
-    App app;
+    private WindowService windowService;
+    private StampView stampView;
+    private ObservableList<StampRepairHistoryView> observableList;
+    private App app;
     
     @FXML
     private void initialize() {

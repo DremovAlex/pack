@@ -122,5 +122,16 @@ public class FileController {
 		}
 	}
 	
+	@GetMapping("/fromArchive")
+	public ResponseEntity<List<File>> getArchiveImages(@RequestHeader("owner") String owner) {
+		
+		List<File> listOfFileFromArchive = fileService.getDamagedImagesFromArchive(owner);
+		
+		if (listOfFileFromArchive == null) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<>(listOfFileFromArchive, HttpStatus.OK);
+		}
+	}
 	
 }

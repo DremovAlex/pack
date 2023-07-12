@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -16,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import oriseus.pack.App;
 import oriseus.pack.dto.StampDamageHistoryWrapper;
 import oriseus.pack.modelsViews.*;
@@ -32,35 +34,36 @@ import oriseus.pack.service.WindowService;
 public class DamageHistoryController {
     
     @FXML
-    Text nameText;
+    private Text nameText;
     @FXML
-    Text warningText;
+    private Text warningText;
     
     @FXML
-    TableView tableView;
+    private TableView tableView;
     
     @FXML
-    TableColumn shiftColumn;
+    private TableColumn shiftColumn;
     @FXML
-    TableColumn dateOfDamageColumn;
+    private TableColumn dateOfDamageColumn;
     @FXML
-    TableColumn discriptionOfDamageColumn;
+    private TableColumn discriptionOfDamageColumn;
     
     @FXML
-    TextArea discriptionOfDamageTextArea;
+    private TextArea discriptionOfDamageTextArea;
     
     @FXML
-    Button takeReport;
+    private Button takeReport;
     @FXML
-    Button exitButton;
+    private Button exitButton;
     @FXML
-    Button imageButton;
+    private Button imageButton;
     
-    WindowService windowService;
-    StampView stampView;
-    ObservableList<StampDamageHistoryView> observableList;
-    StampDamageHistoryView stampDamageHistoryView;
-    App app;
+    private WindowService windowService;
+    private StampView stampView;
+    private ObservableList<StampDamageHistoryView> observableList;
+    private File[] arrayOfImagesFromArchive;
+    private StampDamageHistoryView stampDamageHistoryView;
+    private App app;
     
     @FXML
     private void initialize() {
@@ -79,6 +82,9 @@ public class DamageHistoryController {
 				"/stampDamageHistory/" + stampView.getName().replace(" ", "%20"), StampDamageHistoryWrapper.class);
 		
         observableList = ConvertService.convertToStampDamageHistoryViewObservableList(stampDamageHistoryWrapper.getList());
+        arrayOfImagesFromArchive = HttpService.getFiles(PropertiesService.getProperties("ServerUrl") + "/file/fromArchive",
+				stampView.getName());
+        
         tableView.setItems(observableList); 
     }
     
@@ -89,13 +95,11 @@ public class DamageHistoryController {
         					PropertiesService.getProperties("TempReportFileSuffix"));
         
         FilesService.getReportDamageHistory(observableList, stampView.getName(), file);
-        
-//        FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("TempReportFileLocation"),        
-//        											PropertiesService.getProperties("TempReportFileName"),
-//        											PropertiesService.getProperties("TempReportFileSuffix"));
+               
         try {
+        	FilesService.openFile(app.getHostServices(), file);
             Thread.sleep(2000);
-        } catch (InterruptedException ex) {
+        } catch (InterruptedException | IOException e) {
         
         }
         file.delete();
@@ -121,8 +125,23 @@ public class DamageHistoryController {
     		return;
     	}
     	
-//    	FilesService.openFile(app.getHostServices(), PropertiesService.getProperties("ArchiveOfDamagedTechnicalMapsImages") + "/" + stampView.getTechnologicalMapName() + "/",
-//    			stampDamageHistoryView.getNameOfTechnicalMap(),
-//    			PropertiesService.getProperties("TechnicalMapImagesSuffix"));   	
+    	for (File file : arrayOfImagesFromArchive) {
+    		if (file.getName().startsWith(ConvertService.convertToStampDamageHistoryDTO(stampDamageHistoryView).getDateOfDamageDetection().toString())) {
+    			try {
+					FilesService.openFile(app.getHostServices(), file);
+					return;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+    		}
+    	}
+    }
+    
+    @FXML
+    public void exitApplication(ActionEvent event) {
+    	Stage primaryStage = (Stage) imageButton.getScene().getWindow();
+    	primaryStage.setOnCloseRequest(e -> {
+            System.out.println("onCloseRequest handler called!");
+        });
     }
 }

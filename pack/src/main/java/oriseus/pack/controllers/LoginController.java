@@ -28,9 +28,9 @@ public class LoginController {
     @FXML
     private Button primaryButton;
 
-    WindowService windowService;
-    String login;
-    String password;
+    private WindowService windowService;
+    private String login;
+    private String password;
     
     @FXML
     private void switchToMainPage(ActionEvent event) throws IOException {

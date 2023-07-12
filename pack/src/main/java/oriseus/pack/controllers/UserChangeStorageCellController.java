@@ -25,20 +25,20 @@ import oriseus.pack.service.WindowService;
 public class UserChangeStorageCellController {
     
     @FXML
-    Text nameText;
+    private Text nameText;
     
     @FXML
-    TextField storageCellTextField;
+    private TextField storageCellTextField;
     @FXML
-    Text warningText;
+    private Text warningText;
     
     @FXML
-    Button exitButton;
+    private Button exitButton;
     @FXML
-    Button confirmButton;
+    private Button confirmButton;
     
-    WindowService windowService;
-    StampView stampView;
+    private WindowService windowService;
+    private StampView stampView;
     
     @FXML
     private void initialize() {

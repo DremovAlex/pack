@@ -20,38 +20,38 @@ import oriseus.pack.service.WindowService;
 public class RootEditController {
 	
     @FXML
-    TextField nameTextField;	
+    private TextField nameTextField;	
     @FXML
-    TextField storageCellTextField;
+    private TextField storageCellTextField;
     @FXML
-    TextField technologicalMapNameTextField;
+    private TextField technologicalMapNameTextField;
     @FXML
-    TextField rubPriceTextField;
+    private TextField rubPriceTextField;
     @FXML
-    TextField kopPriceTextField;
+    private TextField kopPriceTextField;
     
     @FXML
-    TextArea notesTextArea;
+    private TextArea notesTextArea;
     
     @FXML
-    Text warningText;
+    private Text warningText;
     
     @FXML
-    CheckBox isDamageCheckBox;
+    private CheckBox isDamageCheckBox;
     @FXML
-    CheckBox isRepairPackCheckBox;
+    private CheckBox isRepairPackCheckBox;
     @FXML
-    CheckBox isAvailabilityCheckBox;
+    private CheckBox isAvailabilityCheckBox;
     @FXML
-    CheckBox isDisposalCheckBox;
+    private CheckBox isDisposalCheckBox;
 	
     @FXML
-    Button editButton;
+    private Button editButton;
     @FXML
-    Button exitButton;
+    private Button exitButton;
 	
-    StampView stampView;
-    WindowService windowService;
+    private StampView stampView;
+    private WindowService windowService;
         
     @FXML
     private void initialize() {

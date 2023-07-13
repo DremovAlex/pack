@@ -11,6 +11,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import oriseus.packserver.dto.StampDTO;
+import oriseus.packserver.models.Stamp;
+
 @Service
 public class FileService {
 
@@ -24,7 +27,7 @@ public class FileService {
 	private String archiveImages;
 	
 	@Value("${TechnicalMapImagesSuffix}")
-	private String TechnicalMapImagesSuffix;
+	private String technicalMapImagesSuffix;
 	
 	public File getTechnicalMap(String fileName, String owner) {
 		File file = new File(technicalMapsFolder + owner + "/" + fileName);
@@ -33,6 +36,11 @@ public class FileService {
 		
 	public void saveTechnicalMap(File file, String owner) throws IOException {	
 		saveFile(file, technicalMapsFolder + owner, file.getName());
+	}
+	
+	public void changeTechnicalMap(File file, String oldOwner, String newOwner) throws IOException {
+		deleteTechnicalMap(oldOwner);
+		saveTechnicalMap(file, newOwner);
 	}
 	
 	public void deleteTechnicalMap(String owner) {
@@ -46,6 +54,11 @@ public class FileService {
 	
 	public void saveImageOfTechnicalMap(File file, String owner) throws IOException {
 		saveFile(file, technicalMapsImagesFolder + owner, file.getName());
+	}
+	
+	public void changeImageOfTechnicalMap(File file, String oldOwner, String newOwner) throws IOException {
+		deleteImageOfTechnicalMap(oldOwner);
+		saveImageOfTechnicalMap(file, newOwner);
 	}
 	
 	public void deleteImageOfTechnicalMap(String owner) {
@@ -89,6 +102,11 @@ public class FileService {
 		return true;
 	}
 	
+	public void changeDamagedImageOfTechnicalMap(File file, String oldOwner, String newOwner) throws IOException {
+		cleanDamagedImageOfTechnologicalMap(file.getName(), oldOwner);
+		saveDamagedImageOfTechnicalMap(file, newOwner);
+	}
+		
 	public boolean sendDamagedImageToArchive(String owner, String dateOfSending, String fileName) {
 		File directory = new File(archiveImages + owner);
 		if (!directory.exists()) {
@@ -109,6 +127,23 @@ public class FileService {
 	
 	public boolean cleanArchive(String owner) {
 		deleteFile(archiveImages, owner);
+		return true;
+	}
+	
+	public boolean changeDamagedImageInArchive(Stamp oldStamp, Stamp newStamp) throws IOException {
+		File directory = new File(archiveImages + oldStamp.getName());
+		if (!directory.exists()) {
+			return false;
+		}
+		
+		for (File file : directory.listFiles()) {
+			File newFile = new File(directory + "/" + file.getName().substring(0, file.getName().indexOf("_")) + "_" + newStamp.getTechnologicalMapName() + technicalMapImagesSuffix);
+			Files.copy(file.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			file.delete();
+		}
+		
+		File newDirectory = new File(archiveImages + newStamp.getName());
+		directory.renameTo(newDirectory);
 		return true;
 	}
 	

@@ -1,5 +1,6 @@
 package oriseus.packserver.services;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +54,14 @@ public class StampService {
 	}
 
 	@Transactional
-	public void updateStamp(Stamp stamp) {
+	public void updateStamp(Stamp stamp) throws IOException {
 		Stamp oldStamp = stampRepository.findById(stamp.getId()).orElseThrow();
-		stamp.setAddingDate(oldStamp.getAddingDate());		
+		stamp.setAddingDate(oldStamp.getAddingDate());
+		
+		if (!oldStamp.getName().equals(stamp.getName()) || !oldStamp.getTechnologicalMapName().equals(stamp.getTechnologicalMapName())) {
+			fileService.changeDamagedImageInArchive(oldStamp, stamp);
+		}
+		
 		stampRepository.save(stamp);
 	}
 

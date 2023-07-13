@@ -195,4 +195,29 @@ public class HttpService {
 			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
 		}
 	}
+	
+public static void sendFile(String url, File file, String oldOwner, String newOwner) {
+		
+		final RestTemplate restTemplate = new RestTemplate();
+		final HttpHeaders headers = new HttpHeaders();
+	
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("oldOwner", oldOwner);
+		headers.set("newOwner", newOwner);
+		
+		HttpEntity<File> entity = new HttpEntity<>(file, headers);
+
+		ResponseEntity<HttpStatus> response = null;
+		
+		try {
+			response = restTemplate.exchange(url, HttpMethod.POST, entity, HttpStatus.class);
+		} catch (Exception e) {
+			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		}
+			
+		if (!response.getStatusCode().equals(HttpStatus.OK)) {
+			Exception e = new RestClientException(response.getStatusCode().toString());
+			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		}
+	}
 }

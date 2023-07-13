@@ -1,5 +1,6 @@
 package oriseus.packserver.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class StampDamageHistoryService {
 	}
 	
 	@Transactional
-	public void addDamageHistory(StampDamageHistory stampDamageHistory) {
+	public void addDamageHistory(StampDamageHistory stampDamageHistory) throws IOException {
 		Stamp stamp = stampDamageHistory.getStamp();
 		stampService.updateStamp(stamp);
 		stampDamageHistoryRepository.save(stampDamageHistory);		

@@ -55,6 +55,19 @@ public class FileController {
 		
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
+	
+	@PostMapping("/changeTechnicalMap")
+	public ResponseEntity<HttpStatus> changeTechnicalMap(@RequestBody File file,
+														 @RequestHeader("oldOwner") String oldOwner,
+														 @RequestHeader("newOwner") String newOwner) {
+		try {
+			fileService.changeTechnicalMap(file, oldOwner, newOwner);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
+		return ResponseEntity.ok(HttpStatus.OK);
+	}
 
 	@GetMapping("/imageOfTechnicalMap")
 	public ResponseEntity<File> getImageOfTechnicalMap(@RequestHeader("fileName") String fileName,
@@ -79,7 +92,20 @@ public class FileController {
 			e.printStackTrace();
 			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 		}
+		return ResponseEntity.ok(HttpStatus.OK);		
+	}
+	@PostMapping("/changeImageOfTechnicalMap")
+	public ResponseEntity<HttpStatus> changeImageOfTechnicalMap(@RequestBody File file,
+																@RequestHeader("oldOwner") String oldOwner,
+																@RequestHeader("newOwner") String newOwner) {
 		
+		try {
+			fileService.changeImageOfTechnicalMap(file, oldOwner, newOwner);
+			fileService.changeDamagedImageOfTechnicalMap(file, oldOwner, newOwner);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
 		return ResponseEntity.ok(HttpStatus.OK);		
 	}
 	

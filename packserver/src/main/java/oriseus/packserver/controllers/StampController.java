@@ -1,5 +1,7 @@
 package oriseus.packserver.controllers;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -77,7 +79,12 @@ public class StampController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 		
-		stampService.updateStamp(convert.convertToStamp(stampDTO));
+		try {
+			stampService.updateStamp(convert.convertToStamp(stampDTO));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	

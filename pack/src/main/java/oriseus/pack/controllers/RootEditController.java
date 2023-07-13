@@ -1,6 +1,9 @@
 package oriseus.pack.controllers;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -10,6 +13,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import oriseus.pack.dto.StampDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
@@ -35,6 +39,10 @@ public class RootEditController {
     
     @FXML
     private Text warningText;
+    @FXML
+    private Text technicalMapText;
+    @FXML
+    private Text imageOfTechnicalMapText;
     
     @FXML
     private CheckBox isDamageCheckBox;
@@ -49,9 +57,15 @@ public class RootEditController {
     private Button editButton;
     @FXML
     private Button exitButton;
+    @FXML
+    private Button technicalMapButton;
+    @FXML
+    private Button imageOfTechnicalMapButton;
 	
     private StampView stampView;
     private WindowService windowService;
+    private File technicalMap;
+    private File imageOftechnicalMap;
         
     @FXML
     private void initialize() {
@@ -68,6 +82,14 @@ public class RootEditController {
         isDisposalCheckBox.setSelected(ConvertService.convertStringToBoolean(stampView.getDisposal()));
         rubPriceTextField.setText(ConvertService.convertStringToRub(stampView.getPrice()));
         kopPriceTextField.setText(ConvertService.convertStringToKop(stampView.getPrice()));
+
+        technicalMap = HttpService.getFile(PropertiesService.getProperties("ServerUrl") + "/file/technicalMap", 
+        		stampView.getTechnologicalMapName() + PropertiesService.getProperties("TechnicalMapSuffix"), stampView.getName());
+        imageOftechnicalMap = HttpService.getFile(PropertiesService.getProperties("ServerUrl") + "/file/imageOfTechnicalMap", 
+        		stampView.getTechnologicalMapName() + PropertiesService.getProperties("TechnicalMapImagesSuffix"), stampView.getName());
+
+        technicalMapText.setText(technicalMap.getName());
+        imageOfTechnicalMapText.setText(imageOftechnicalMap.getName());
     }
 	
     @FXML
@@ -99,6 +121,8 @@ public class RootEditController {
     	Long price = Long.parseLong(rub + kop);
     	Integer id = stampView.getId();
     	
+    	String oldName = stampView.getName();
+    	
         stampView = new StampView();
         stampView.setId(id);
         stampView.setName(new SimpleStringProperty(nameTextField.getText()));
@@ -114,6 +138,9 @@ public class RootEditController {
                 
         HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/update", ConvertService.convertToStampDTO(stampView));
         
+        HttpService.sendFile(PropertiesService.getProperties("ServerUrl") + "/file/changeTechnicalMap", technicalMap, oldName, nameTextField.getText());   
+        HttpService.sendFile(PropertiesService.getProperties("ServerUrl") + "/file/changeImageOfTechnicalMap", imageOftechnicalMap, oldName, nameTextField.getText());
+        
         windowService.closeWindow(editButton);
     }
 	
@@ -122,5 +149,55 @@ public class RootEditController {
     	windowService.closeWindow(exitButton);
     }
 	
-	
+    @FXML
+    private void addImage() {   	    	
+    	if (nameTextField.getText().isBlank()) {
+    		warningText.setText("Пожалуйста, укажите номер клише");
+    		return;
+    	}
+    	
+    	if (technologicalMapNameTextField.getText().isBlank()) {
+    		warningText.setText("Пожалуйста, укажите номер технологической карты");
+    		return;
+    	}
+    	
+    	FileChooser fileChooser = new FileChooser();   	
+    	File selectedFile = fileChooser.showOpenDialog(technicalMapButton.getScene().getWindow());   	
+    	
+    	if (selectedFile == null) return;
+    	
+    	imageOftechnicalMap = new File(PropertiesService.getProperties("TempReportFileLocation") + technologicalMapNameTextField.getText() + PropertiesService.getProperties("TechnicalMapImagesSuffix"));
+		try {
+			Files.copy(selectedFile.toPath(), imageOftechnicalMap.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			imageOfTechnicalMapText.setText(technicalMap.getName());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @FXML
+    private void addTechnicalMap() {  	
+    	if (nameTextField.getText().isBlank()) {
+    		warningText.setText("Пожалуйста, укажите номер клише");
+    		return;
+    	}
+    	
+    	if (technologicalMapNameTextField.getText().isBlank()) {
+    		warningText.setText("Пожалуйста, укажите номер технологической карты");
+    		return;
+    	}
+    	
+    	FileChooser fileChooser = new FileChooser();    	
+    	File selectedFile = fileChooser.showOpenDialog(technicalMapButton.getScene().getWindow());   	
+    	
+    	if (selectedFile == null) return;
+    	
+    	technicalMap = new File(PropertiesService.getProperties("TempReportFileLocation") + technologicalMapNameTextField.getText() + PropertiesService.getProperties("TechnicalMapSuffix"));
+    	try {
+			Files.copy(selectedFile.toPath(), technicalMap.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			technicalMapText.setText(technicalMap.getName());
+    	} catch (IOException e) {
+			e.printStackTrace();
+		}   	
+    }
 }

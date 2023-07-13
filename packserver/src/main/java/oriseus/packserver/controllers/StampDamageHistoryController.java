@@ -1,5 +1,7 @@
 package oriseus.packserver.controllers;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -48,7 +50,12 @@ public class StampDamageHistoryController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 		
-		stampDamageHistoryService.addDamageHistory(convert.convertToStampDamageHistory(stampDamageHistoryDTO));
+		try {
+			stampDamageHistoryService.addDamageHistory(convert.convertToStampDamageHistory(stampDamageHistoryDTO));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		fileService.sendDamagedImageToArchive(stampDamageHistoryDTO.getStampDTO().getName(), 
 											  stampDamageHistoryDTO.getDateOfDamageDetection().toString(), 
 											  stampDamageHistoryDTO.getStampDTO().getTechnologicalMapName() + TechnicalMapImagesSuffix);

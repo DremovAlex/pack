@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,9 @@ import oriseus.packserver.services.FileService;
 @RequestMapping("/file")
 public class FileController {
 	
+	@Value("${token}")	
+	private String token;
+	
 	private final FileService fileService;
 	
 	@Autowired
@@ -32,7 +36,13 @@ public class FileController {
 
 	@GetMapping("/technicalMap")
 	public ResponseEntity<File> getTechnicalMap(@RequestHeader("fileName") String fileName,
-												@RequestHeader("owner") String owner) {		
+												@RequestHeader("owner") String owner,
+												@RequestHeader("token") String headerToken) {		
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
 		File file = fileService.getTechnicalMap(fileName, owner);	
 		
 		if (file == null) {
@@ -44,7 +54,12 @@ public class FileController {
 	
 	@PostMapping("/technicalMap")
 	public ResponseEntity<HttpStatus> postTechnicalMap(@RequestBody File file,
+													   @RequestHeader("token") String headerToken,
 													   @RequestHeader("owner") String owner) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 				
 		try {
 			fileService.saveTechnicalMap(file, owner);
@@ -58,8 +73,14 @@ public class FileController {
 	
 	@PostMapping("/changeTechnicalMap")
 	public ResponseEntity<HttpStatus> changeTechnicalMap(@RequestBody File file,
+														 @RequestHeader("token") String headerToken,
 														 @RequestHeader("oldOwner") String oldOwner,
 														 @RequestHeader("newOwner") String newOwner) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		
 		try {
 			fileService.changeTechnicalMap(file, oldOwner, newOwner);
 		} catch (IOException e) {
@@ -70,8 +91,13 @@ public class FileController {
 	}
 
 	@GetMapping("/imageOfTechnicalMap")
-	public ResponseEntity<File> getImageOfTechnicalMap(@RequestHeader("fileName") String fileName,
+	public ResponseEntity<File> getImageOfTechnicalMap(@RequestHeader("token") String headerToken,
+													   @RequestHeader("fileName") String fileName,
 													   @RequestHeader("owner") String owner) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		
 		File file = fileService.getImageOfTechnicalMap(fileName, owner);	
 		
@@ -84,7 +110,12 @@ public class FileController {
 	
 	@PostMapping("/imageOfTechnicalMap")
 	public ResponseEntity<HttpStatus> postImageOfTechnicalMap(@RequestBody File file,
+															  @RequestHeader("token") String headerToken,
 			   												  @RequestHeader("owner") String owner) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		
 		try {
 			fileService.saveImageOfTechnicalMap(file, owner);
@@ -96,8 +127,13 @@ public class FileController {
 	}
 	@PostMapping("/changeImageOfTechnicalMap")
 	public ResponseEntity<HttpStatus> changeImageOfTechnicalMap(@RequestBody File file,
+																@RequestHeader("token") String headerToken,
 																@RequestHeader("oldOwner") String oldOwner,
 																@RequestHeader("newOwner") String newOwner) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		
 		try {
 			fileService.changeImageOfTechnicalMap(file, oldOwner, newOwner);
@@ -110,8 +146,13 @@ public class FileController {
 	}
 	
 	@GetMapping("/damagedImageOfTechnicalMap")
-	public ResponseEntity<File> getDamagedImageOfTechnicalMap(@RequestHeader("fileName") String fileName,
+	public ResponseEntity<File> getDamagedImageOfTechnicalMap(@RequestHeader("token") String headerToken,
+															  @RequestHeader("fileName") String fileName,
 			   												  @RequestHeader("owner") String owner) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		
 		File file = fileService.getDamagedImageOfTechnicalMap(fileName, owner);
 		
@@ -124,7 +165,12 @@ public class FileController {
 	
 	@PostMapping("/damagedImageOfTechnicalMap")
 	public ResponseEntity<HttpStatus> postDamagedImageOfTechnicalMap(@RequestBody File file,
+			 														 @RequestHeader("token") String headerToken,
 				  													 @RequestHeader("owner") String owner) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		
 		try {
 			fileService.saveDamagedImageOfTechnicalMap(file, owner);
@@ -137,8 +183,13 @@ public class FileController {
 	}
 	
 	@GetMapping("/fromRepair")
-	public ResponseEntity<HttpStatus> fromRepair(@RequestHeader("fileName") String fileName,
+	public ResponseEntity<HttpStatus> fromRepair(@RequestHeader("token") String headerToken,
+												 @RequestHeader("fileName") String fileName,
 										   		 @RequestHeader("owner") String owner) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		
 		boolean isSuccess = fileService.cleanDamagedImageOfTechnologicalMap(fileName, owner);
 		if (!isSuccess) {
@@ -149,7 +200,12 @@ public class FileController {
 	}
 	
 	@GetMapping("/fromArchive")
-	public ResponseEntity<List<File>> getArchiveImages(@RequestHeader("owner") String owner) {
+	public ResponseEntity<List<File>> getArchiveImages(@RequestHeader("token") String headerToken,
+													   @RequestHeader("owner") String owner) {
+		
+		if (!headerToken.equals(token)) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		
 		List<File> listOfFileFromArchive = fileService.getDamagedImagesFromArchive(owner);
 		

@@ -99,8 +99,10 @@ public class HttpService {
 		
 		final RestTemplate restTemplate = new RestTemplate();
 		final HttpHeaders headers = new HttpHeaders();
+		token = PropertiesService.getProperties("Token");
 		
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("token", token);
 		headers.set("fileName", fileName);
 		headers.set("owner", owner);
 
@@ -126,8 +128,10 @@ public class HttpService {
 		
 		final RestTemplate restTemplate = new RestTemplate();
 		final HttpHeaders headers = new HttpHeaders();
+		token = PropertiesService.getProperties("Token");
 	
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("token", token);
 		headers.set("owner", owner);
 		
 		HttpEntity<File> entity = new HttpEntity<>(file, headers);
@@ -150,8 +154,10 @@ public class HttpService {
 		
 		final RestTemplate restTemplate = new RestTemplate();
 		final HttpHeaders headers = new HttpHeaders();
+		token = PropertiesService.getProperties("Token");
 		
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("token", token);
 		headers.set("owner", owner);
 
 		HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
@@ -175,8 +181,10 @@ public class HttpService {
 	public static void sendGetRequest(String url, String fileName, String owner) {
 		final RestTemplate restTemplate = new RestTemplate();
 		final HttpHeaders headers = new HttpHeaders();
+		token = PropertiesService.getProperties("Token");
 	
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("token", token);
 		headers.set("fileName", fileName);
 		headers.set("owner", owner);
 		
@@ -200,8 +208,10 @@ public static void sendFile(String url, File file, String oldOwner, String newOw
 		
 		final RestTemplate restTemplate = new RestTemplate();
 		final HttpHeaders headers = new HttpHeaders();
+		token = PropertiesService.getProperties("Token");
 	
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("token", token);
 		headers.set("oldOwner", oldOwner);
 		headers.set("newOwner", newOwner);
 		

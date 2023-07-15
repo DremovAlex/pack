@@ -110,7 +110,7 @@
          <children>
             <Button fx:id="exitButton" layoutX="29.0" layoutY="18.0" mnemonicParsing="false" onAction="#exit" prefWidth="100.0" text="Отмена" />
             <Button fx:id="editButton" layoutX="514.0" layoutY="17.0" mnemonicParsing="false" onAction="#edit" prefWidth="100.0" text="Добавить" />
-            <Text fx:id="warningTexz" layoutX="142.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="350.13000106811523" />
+            <Text fx:id="warningTexz" fill="#e41111" layoutX="148.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="350.13000106811523" />
          </children>
       </Pane>
    </children>

@@ -8,18 +8,14 @@ import java.time.LocalDateTime;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import oriseus.pack.App;
-import oriseus.pack.dto.StampDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
-import oriseus.pack.service.FilesService;
 import oriseus.pack.service.HttpService;
 import oriseus.pack.service.PropertiesService;
 import oriseus.pack.service.WindowService;

@@ -13,10 +13,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import javafx.application.HostServices;
 import javafx.scene.control.TextField;
 import oriseus.pack.App;
-import oriseus.pack.dto.StampDTO;
 import oriseus.pack.dto.StampWrapper;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.FilesService;
@@ -29,7 +27,7 @@ import oriseus.pack.service.WindowService;
 public class RootMainController {
 	
     @FXML
-    private TableView tableView;
+    private TableView<StampView> tableView;
 	
     @FXML
     private Button buttonAdd;
@@ -84,10 +82,6 @@ public class RootMainController {
     private WindowService windowService;
     private ObservableList<StampView> observableList;
     private App app;
-    private HostServices host;
-    private String location;
-    private String suffix;
-    private String path;
     
     @FXML
     private void initialize() {
@@ -178,11 +172,6 @@ public class RootMainController {
     	}
     	
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/delete", ConvertService.convertToStampDTO(stampView));
-        
-    	FilesService.deleteStampImagesFromArchive(stampView.getTechnologicalMapName());
-    	FilesService.deleteDamagedTechnicalMapImage(stampView.getTechnologicalMapName());
-    	FilesService.deleteTechnicalMapImage(stampView.getTechnologicalMapName());
-        FilesService.deleteTechnicalMap(stampView.getTechnologicalMapName());
     	
     	tableView.refresh();
     }

@@ -23,8 +23,9 @@ public class AlertService {
 
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
+		
 		exception.getMessage();
-		String exceptionText = sw.toString();
+		String exceptionText = pw.toString();
 
 		Label label = new Label("Полный текст ошибки:");
 

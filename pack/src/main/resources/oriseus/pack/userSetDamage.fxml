@@ -48,7 +48,6 @@
                </font>
             </Text>
             <TextArea fx:id="damageTextArea" layoutX="40.0" layoutY="54.0" prefHeight="284.0" prefWidth="663.0" />
-            <Text fx:id="warningText" layoutX="357.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" />
             <Button fx:id="imageButton" layoutX="590.0" layoutY="18.0" mnemonicParsing="false" onAction="#openImage" prefHeight="26.0" prefWidth="110.0" text="Изображение" />
          </children>
       </Pane>
@@ -56,6 +55,7 @@
          <children>
             <Button fx:id="exitButton" layoutX="40.0" layoutY="22.0" mnemonicParsing="false" onAction="#exit" prefHeight="26.0" prefWidth="110.0" text="Выйти" textAlignment="CENTER" />
             <Button fx:id="confirmButton" layoutX="595.0" layoutY="22.0" mnemonicParsing="false" onAction="#confirm" prefWidth="110.0" text="Подтвердить" textAlignment="CENTER" />
+            <Text fx:id="warningText" fill="#e41111" layoutX="176.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="388.5850067138672" />
          </children>
       </Pane>
    </children>

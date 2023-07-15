@@ -26,7 +26,7 @@
                </font>
             </Text>
             <TextField fx:id="storageCellTextField" layoutX="325.0" layoutY="117.0" prefHeight="26.0" prefWidth="241.0" />
-            <Text fx:id="warningText" layoutX="325.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="240.94400024414062" />
+            <Text fx:id="warningText" fill="#e41111" layoutX="114.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="372.9440002441406" />
          </children>
       </Pane>
       <Pane prefHeight="70.0" prefWidth="200.0">

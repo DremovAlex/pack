@@ -6,10 +6,8 @@ package oriseus.pack.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -39,14 +37,14 @@ public class DamageHistoryController {
     private Text warningText;
     
     @FXML
-    private TableView tableView;
+    private TableView<StampDamageHistoryView> tableView;
     
     @FXML
-    private TableColumn shiftColumn;
+    private TableColumn<String, String> shiftColumn;
     @FXML
-    private TableColumn dateOfDamageColumn;
+    private TableColumn<String, String> dateOfDamageColumn;
     @FXML
-    private TableColumn discriptionOfDamageColumn;
+    private TableColumn<String, String> discriptionOfDamageColumn;
     
     @FXML
     private TextArea discriptionOfDamageTextArea;
@@ -90,19 +88,19 @@ public class DamageHistoryController {
     
     @FXML
     private void takeReport() {
-        File file = new File(PropertiesService.getProperties("TempReportFileLocation") +
-        					PropertiesService.getProperties("TempReportFileName") + 
-        					PropertiesService.getProperties("TempReportFileSuffix"));
+        File report = new File(PropertiesService.getProperties("TempReportFileLocation") +
+        					 PropertiesService.getProperties("TempReportFileName") + 
+        					 PropertiesService.getProperties("TempReportFileSuffix"));
         
-        FilesService.getReportDamageHistory(observableList, stampView.getName(), file);
+        FilesService.getReportDamageHistory(observableList, stampView.getName(), report);
                
         try {
-        	FilesService.openFile(app.getHostServices(), file);
+        	FilesService.openFile(app.getHostServices(), report);
             Thread.sleep(2000);
         } catch (InterruptedException | IOException e) {
         
         }
-        file.delete();
+        report.delete();
     }
     
     @FXML
@@ -138,7 +136,7 @@ public class DamageHistoryController {
     }
     
     @FXML
-    public void exitApplication(ActionEvent event) {
+    public void exitApplication() {
     	Stage primaryStage = (Stage) imageButton.getScene().getWindow();
     	primaryStage.setOnCloseRequest(e -> {
             System.out.println("onCloseRequest handler called!");

@@ -9,10 +9,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -24,7 +22,6 @@ import oriseus.pack.dto.StampDTO;
 import oriseus.pack.dto.StampDamageHistoryDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
-import oriseus.pack.service.FilesService;
 import oriseus.pack.service.HttpService;
 import oriseus.pack.service.PropertiesService;
 import oriseus.pack.service.WindowService;

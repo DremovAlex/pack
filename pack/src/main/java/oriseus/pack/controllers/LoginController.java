@@ -1,7 +1,6 @@
 package oriseus.pack.controllers;
 
 import java.io.IOException;
-import javafx.event.ActionEvent;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,7 +10,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import oriseus.pack.service.PropertiesService;
 import oriseus.pack.dto.RoleDTO;
-import oriseus.pack.service.ConvertService;
 import oriseus.pack.service.HttpService;
 import oriseus.pack.service.WindowService;
 
@@ -21,19 +19,24 @@ public class LoginController {
     private TextField loginField;
     @FXML
     private PasswordField passwordField;
+    
     @FXML
     private Text text;
+    
     @FXML
     private VBox textField;
+    
     @FXML
-    private Button primaryButton;
+    private Button loginButton;
+    @FXML
+    private Button exitButton;
 
     private WindowService windowService;
     private String login;
     private String password;
     
     @FXML
-    private void switchToMainPage(ActionEvent event) throws IOException {
+    private void switchToMainPage() throws IOException {
         login = loginField.getText();
     	password = passwordField.getText();
     	
@@ -55,6 +58,11 @@ public class LoginController {
     	} else {
     		text.setText("Ошибка входа");
     	}
+    }
+    
+    @FXML
+    private void exit() throws IOException {
+    	System.exit(0);
     }
     
     @FXML

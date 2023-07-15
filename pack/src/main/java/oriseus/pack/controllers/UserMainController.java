@@ -67,11 +67,7 @@ public class UserMainController {
     private WindowService windowService;
     private App app;
     private ObservableList<StampView> observableList;
-    private HostServices host;
-    private String location;
-    private String suffix;
-    private String path;
-    
+
     @FXML
     private void initialize() {
         windowService = new WindowService();

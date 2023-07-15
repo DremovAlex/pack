@@ -19,8 +19,8 @@ import javafx.stage.Stage;
 
 public class WindowService {
     
-    Parent root;
-    Stage stage;
+    private Parent root;
+    private Stage stage;
     
     public void openNewWindow(String fxml, String label, Control control) throws IOException {
         stage = new Stage();

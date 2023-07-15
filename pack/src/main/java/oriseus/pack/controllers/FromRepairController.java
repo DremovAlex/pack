@@ -4,15 +4,10 @@
  */
 package oriseus.pack.controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Iterator;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -21,7 +16,6 @@ import oriseus.pack.dto.StampDTO;
 import oriseus.pack.dto.StampRepairHistoryDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
-import oriseus.pack.service.FilesService;
 import oriseus.pack.service.HttpService;
 import oriseus.pack.service.PropertiesService;
 import oriseus.pack.service.WindowService;

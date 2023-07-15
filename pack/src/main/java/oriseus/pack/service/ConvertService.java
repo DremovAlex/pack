@@ -3,7 +3,6 @@ package oriseus.pack.service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -83,7 +82,6 @@ public class ConvertService {
 		StampRepairHistoryDTO stampRepairHistoryDTO = new StampRepairHistoryDTO();
 		stampRepairHistoryDTO.setRepairDate(convertStringToLocalDateTime(stampRepairHistoryView.getRepairPrice()));
 		stampRepairHistoryDTO.setRepairPrice(convertStringToLong(stampRepairHistoryView.getRepairPrice()));
-		//stampDTO == null
 		return stampRepairHistoryDTO;
 	}
 	

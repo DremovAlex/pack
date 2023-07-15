@@ -6,7 +6,6 @@ package oriseus.pack.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,7 +15,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import oriseus.pack.App;
-import oriseus.pack.dto.StampDamageHistoryWrapper;
 import oriseus.pack.dto.StampRepairHistoryDTO;
 import oriseus.pack.dto.StampRepairHistoryWrapper;
 import oriseus.pack.modelsViews.*;
@@ -38,12 +36,12 @@ public class RepairHistoryController {
     private Text sumText;
     
     @FXML
-    private TableView tableView;
+    private TableView<StampRepairHistoryView> tableView;
     
     @FXML
-    private TableColumn repairDateColumn;
+    private TableColumn<String, String> repairDateColumn;
     @FXML
-    private TableColumn repairPriceColumn;
+    private TableColumn<String, String> repairPriceColumn;
     
     @FXML
     private Button takeReport;
@@ -84,23 +82,19 @@ public class RepairHistoryController {
     
     @FXML
     private void takeReport() {
-        File file = new File(PropertiesService.getProperties("TempReportFileLocation") +
-        PropertiesService.getProperties("TempReportFileName") + 
-        PropertiesService.getProperties("TempReportFileSuffix"));
-        
-        FilesService.getReportRepairHistory(observableList, file, sumText.getText(), stampView.getName());
-//        FilesService.openFile(app.getHostServices(), 
-        
- //       PropertiesService.getProperties("TempReportFileLocation"),
-//        PropertiesService.getProperties("TempReportFileName"),
-//        PropertiesService.getProperties("TempReportFileSuffix"));
-        
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-        
-        }
-        file.delete();
+    	File report = new File(PropertiesService.getProperties("TempReportFileLocation") +
+				 			   PropertiesService.getProperties("TempReportFileName") + 
+				 			   PropertiesService.getProperties("TempReportFileSuffix"));
+
+		FilesService.getReportRepairHistory(observableList, report, sumText.getText(), stampView.getName());
+		  
+		try {
+			FilesService.openFile(app.getHostServices(), report);
+			Thread.sleep(2000);
+		} catch (InterruptedException | IOException e) {
+		
+		}
+		report.delete();
     }
     
     @FXML

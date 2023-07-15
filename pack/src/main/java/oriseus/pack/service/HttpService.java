@@ -204,7 +204,7 @@ public class HttpService {
 		}
 	}
 	
-public static void sendFile(String url, File file, String oldOwner, String newOwner) {
+	public static void sendFile(String url, File file, String oldOwner, String newOwner) {
 		
 		final RestTemplate restTemplate = new RestTemplate();
 		final HttpHeaders headers = new HttpHeaders();

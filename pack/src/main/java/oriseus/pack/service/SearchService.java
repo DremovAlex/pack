@@ -16,7 +16,7 @@ public class SearchService {
 	
 	private SearchService() {}
     
-    public static void search(TableView tableView, String searchString, ObservableList<StampView> observableList) {
+    public static void search(TableView<StampView> tableView, String searchString, ObservableList<StampView> observableList) {
         for (StampView stampView : observableList) {
             if (stampView.getName().equals(searchString)) {
                 tableView.scrollTo(stampView);

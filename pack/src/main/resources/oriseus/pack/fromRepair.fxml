@@ -29,7 +29,7 @@
             <TextField fx:id="kopPriceTextField" layoutX="350.0" layoutY="149.0" prefHeight="26.0" prefWidth="167.0" />
             <Text layoutX="531.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Рублей" />
             <Text layoutX="531.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Копеек" />
-            <Text fx:id="warningText" layoutX="88.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="442.13000106811523" />
+            <Text fx:id="warningText" fill="#e41111" layoutX="88.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="442.13000106811523" />
          </children>
       </Pane>
       <Pane prefHeight="70.0" prefWidth="200.0">

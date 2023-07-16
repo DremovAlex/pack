@@ -2,6 +2,10 @@ package oriseus.pack.controllers;
 
 import java.io.File;
 import java.io.IOException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -83,6 +87,8 @@ public class RootMainController {
     private ObservableList<StampView> observableList;
     private App app;
     
+    private static final Logger logger = (Logger) LogManager.getLogger(RootMainController.class);
+    
     @FXML
     private void initialize() {
         windowService = new WindowService();
@@ -98,11 +104,8 @@ public class RootMainController {
         columnPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         columnDateAdding.setCellValueFactory(new PropertyValueFactory<>("addingDate"));
         columnNotes.setCellValueFactory(new PropertyValueFactory<>("notes"));
-        
-        StampWrapper stampWrapper = null;
 		
-        stampWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") + "/stamps", StampWrapper.class);
-        
+        StampWrapper stampWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") + "/stamps", StampWrapper.class);       
 		observableList = ConvertService.convertToStampViewObservableList(stampWrapper.getList());
         
         tableView.setItems(observableList); 

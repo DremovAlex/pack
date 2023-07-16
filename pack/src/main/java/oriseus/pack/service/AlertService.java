@@ -5,8 +5,10 @@ import javafx.scene.control.Alert.AlertType;
 
 
 public class AlertService {
+	
+	private AlertService() {}
 
-	public static void showAlertException(Exception exception, String header, String content) {	
+	public static void showAlertException(String header, String content) {	
 		Alert alert = new Alert(AlertType.ERROR);
 		
 		alert.setWidth(600);

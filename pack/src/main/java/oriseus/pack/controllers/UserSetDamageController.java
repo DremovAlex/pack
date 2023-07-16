@@ -22,6 +22,7 @@ import oriseus.pack.dto.StampDTO;
 import oriseus.pack.dto.StampDamageHistoryDTO;
 import oriseus.pack.modelsViews.*;
 import oriseus.pack.service.ConvertService;
+import oriseus.pack.service.FilesService;
 import oriseus.pack.service.HttpService;
 import oriseus.pack.service.PropertiesService;
 import oriseus.pack.service.WindowService;
@@ -118,13 +119,6 @@ public class UserSetDamageController {
     	tempFile = new File(PropertiesService.getProperties("TempReportFileLocation") + damagedImage.getName());
     	Files.copy(damagedImage.toPath(), tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
     	
-        app.getHostServices().showDocument(tempFile.toString());
-        
-        try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-    	
+        FilesService.openFile(app.getHostServices(), tempFile);
     }
 }

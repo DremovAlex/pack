@@ -7,6 +7,9 @@ package oriseus.pack.controllers;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -53,6 +56,8 @@ public class RepairHistoryController {
     private ObservableList<StampRepairHistoryView> observableList;
     private App app;
     
+    private static final Logger logger = (Logger) LogManager.getLogger(RepairHistoryController.class);
+    
     @FXML
     private void initialize() {
         windowService = new WindowService();
@@ -90,9 +95,8 @@ public class RepairHistoryController {
 		  
 		try {
 			FilesService.openFile(app.getHostServices(), report);
-			Thread.sleep(2000);
-		} catch (InterruptedException | IOException e) {
-		
+		} catch (IOException e) {
+			logger.error(e.getMessage());
 		}
 		report.delete();
     }

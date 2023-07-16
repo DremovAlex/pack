@@ -2,6 +2,8 @@ package oriseus.pack.service;
 
 import java.io.File;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -11,11 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import oriseus.pack.controllers.LoginController;
 import oriseus.pack.utils.ServerException;
 
 public class HttpService {
 	
 	private static String token;
+	
+    private static final Logger logger = (Logger) LogManager.getLogger(HttpService.class);
 		
 	public static <T> T getObject(String url, Class<T> clazz) {
 		
@@ -33,11 +38,16 @@ public class HttpService {
 		try {
 			response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, clazz);
 		} catch (ResourceAccessException resourceAccessException) {
-			AlertService.showAlertException(resourceAccessException, 
-					"Ошибка связи с сервером", 
-					resourceAccessException.getCause().toString());
+			AlertService.showAlertException( "Ошибка связи с сервером", resourceAccessException.getCause().toString());
+			logger.error(resourceAccessException.getMessage());
 		} catch (Exception ex) {
-			throw new ServerException(ex.getMessage());
+			AlertService.showAlertException("Ошибка связи с сервером", ex.getCause().toString());
+			logger.error(ex.getMessage());
+		}
+		
+		if (response.getBody() == null) {
+			AlertService.showAlertException("Ошибка связи с сервером", "Сервер не отвечает");
+			logger.error(new NullPointerException());
 		}
 		
 		return (T) response.getBody();
@@ -59,11 +69,16 @@ public class HttpService {
 		try {
 			response = restTemplate.exchange(url, HttpMethod.POST, entity, HttpStatus.class);
 		} catch (ResourceAccessException resourceAccessException) {
-			AlertService.showAlertException(resourceAccessException, 
-					"Ошибка связи с сервером", 
-					resourceAccessException.getCause().toString());
+			AlertService.showAlertException("Ошибка связи с сервером", resourceAccessException.getCause().toString());
+			logger.error(resourceAccessException.getMessage());
 		} catch (Exception ex) {
-			throw new ServerException(ex.getMessage());
+			AlertService.showAlertException("Ошибка связи с сервером", ex.getCause().toString());
+			logger.error(ex.getMessage());
+		}
+		
+		if (response.getBody() == null) {
+			AlertService.showAlertException("Ошибка связи с сервером", "Сервер не отвечает");
+			logger.error(new NullPointerException());
 		}
 	}
 	
@@ -83,11 +98,15 @@ public class HttpService {
 		try {
 			response = restTemplate.exchange(url, HttpMethod.POST, entity, clazz);
 		} catch (ResourceAccessException resourceAccessException) {
-			AlertService.showAlertException(resourceAccessException, 
-					"Ошибка связи с сервером", 
-					resourceAccessException.getCause().toString());
+			AlertService.showAlertException("Ошибка связи с сервером", resourceAccessException.getCause().toString());
+			logger.error(resourceAccessException.getMessage());
 		} catch (Exception ex) {
 			throw new ServerException(ex.getMessage());
+		}
+		
+		if (response.getBody() == null) {
+			AlertService.showAlertException("Ошибка связи с сервером", "Сервер не отвечает");
+			logger.error(new NullPointerException());
 		}
 				
 		return (T) response.getBody();
@@ -111,11 +130,16 @@ public class HttpService {
 		try {
 			response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, File.class);
 		} catch (ResourceAccessException resourceAccessException) {
-			AlertService.showAlertException(resourceAccessException, 
-					"Ошибка связи с сервером", 
-					resourceAccessException.getCause().toString());
+			AlertService.showAlertException("Ошибка связи с сервером", resourceAccessException.getCause().toString());
+			logger.error(resourceAccessException.getMessage());
 		} catch (Exception ex) {
-			throw new ServerException(ex.getMessage());
+			AlertService.showAlertException("Ошибка связи с сервером", ex.getCause().toString());
+			logger.error(ex.getMessage());
+		}
+		
+		if (response.getBody() == null) {
+			AlertService.showAlertException("Ошибка связи с сервером", "Сервер не отвечает");
+			logger.error(new NullPointerException());
 		}
 		
 		return response.getBody();
@@ -138,11 +162,16 @@ public class HttpService {
 		try {
 			response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, File[].class);
 		} catch (ResourceAccessException resourceAccessException) {
-			AlertService.showAlertException(resourceAccessException, 
-					"Ошибка связи с сервером", 
-					resourceAccessException.getCause().toString());
+			AlertService.showAlertException("Ошибка связи с сервером", resourceAccessException.getCause().toString());
+			logger.error(resourceAccessException.getMessage());
 		} catch (Exception ex) {
-			throw new ServerException(ex.getMessage());
+			AlertService.showAlertException("Ошибка связи с сервером", ex.getCause().toString());
+			logger.error(ex.getMessage());
+		}
+		
+		if (response.getBody() == null) {
+			AlertService.showAlertException("Ошибка связи с сервером", "Сервер не отвечает");
+			logger.error(new NullPointerException());
 		}
 		
 		return response.getBody();
@@ -165,11 +194,16 @@ public class HttpService {
 		try {
 			response = restTemplate.exchange(url, HttpMethod.POST, entity, HttpStatus.class);
 		} catch (ResourceAccessException resourceAccessException) {
-			AlertService.showAlertException(resourceAccessException, 
-					"Ошибка связи с сервером", 
-					resourceAccessException.getCause().toString());
+			AlertService.showAlertException("Ошибка связи с сервером", resourceAccessException.getCause().toString());
+			logger.error(resourceAccessException.getMessage());
 		} catch (Exception ex) {
-			throw new ServerException(ex.getMessage());
+			AlertService.showAlertException("Ошибка связи с сервером", ex.getCause().toString());
+			logger.error(ex.getMessage());
+		}
+		
+		if (response.getBody() == null) {
+			AlertService.showAlertException("Ошибка связи с сервером", "Сервер не отвечает");
+			logger.error(new NullPointerException());
 		}
 	}
 	
@@ -191,11 +225,16 @@ public class HttpService {
 		try {
 			response = restTemplate.exchange(url, HttpMethod.POST, entity, HttpStatus.class);
 		} catch (ResourceAccessException resourceAccessException) {
-			AlertService.showAlertException(resourceAccessException, 
-					"Ошибка связи с сервером", 
-					resourceAccessException.getCause().toString());
+			AlertService.showAlertException("Ошибка связи с сервером", resourceAccessException.getCause().toString());
+			logger.error(resourceAccessException.getMessage());
 		} catch (Exception ex) {
-			throw new ServerException(ex.getMessage());
+			AlertService.showAlertException("Ошибка связи с сервером", ex.getCause().toString());
+			logger.error(ex.getMessage());
+		}
+		
+		if (response.getBody() == null) {
+			AlertService.showAlertException("Ошибка связи с сервером", "Сервер не отвечает");
+			logger.error(new NullPointerException());
 		}
 	}
 	
@@ -216,11 +255,16 @@ public class HttpService {
 		try {
 			response = restTemplate.exchange(url, HttpMethod.GET, entity, HttpStatus.class);
 		} catch (ResourceAccessException resourceAccessException) {
-			AlertService.showAlertException(resourceAccessException, 
-					"Ошибка связи с сервером", 
-					resourceAccessException.getCause().toString());
+			AlertService.showAlertException("Ошибка связи с сервером", resourceAccessException.getCause().toString());
+			logger.error(resourceAccessException.getMessage());
 		} catch (Exception ex) {
-			throw new ServerException(ex.getMessage());
+			AlertService.showAlertException("Ошибка связи с сервером", ex.getCause().toString());
+			logger.error(ex.getMessage());
+		}
+		
+		if (response.getBody() == null) {
+			AlertService.showAlertException("Ошибка связи с сервером", "Сервер не отвечает");
+			logger.error(new NullPointerException());
 		}
 	}
 

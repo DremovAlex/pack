@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -66,6 +69,8 @@ public class RootAddController {
     private File technicalMapFile;
     private File technicalMapImageFile;
         
+    private static final Logger logger = (Logger) LogManager.getLogger(RootAddController.class);
+    
     @FXML
     private void initialize() {
         windowService = new WindowService();
@@ -146,6 +151,7 @@ public class RootAddController {
 			technicalMapImageText.setText(technicalMapImageFile.getName());
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
     }
     
@@ -172,6 +178,7 @@ public class RootAddController {
 			technicalMapText.setText(technicalMapFile.getName());
     	} catch (IOException e) {
 			e.printStackTrace();
+			logger.error(e.getMessage());
 		}   	
     }
 	

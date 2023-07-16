@@ -7,6 +7,9 @@ package oriseus.pack.service;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,11 +19,14 @@ import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import oriseus.pack.controllers.LoginController;
 
 public class WindowService {
     
     private Parent root;
     private Stage stage;
+    
+    private static final Logger logger = (Logger) LogManager.getLogger(WindowService.class);
     
     public void openNewWindow(String fxml, String label, Control control) throws IOException {
         stage = new Stage();
@@ -36,6 +42,7 @@ public class WindowService {
 		try {
 			image = new Image(getClass().getResource("/oriseus/icons/windowIcon.png").toURI().toString());
 		} catch (URISyntaxException e) {
+			logger.warn(e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -65,6 +72,7 @@ public class WindowService {
 		try {
 			image = new Image(getClass().getResource("/oriseus/icons/windowIcon.png").toURI().toString());
 		} catch (URISyntaxException e) {
+			logger.warn(e.getMessage());
 			e.printStackTrace();
 		}
         

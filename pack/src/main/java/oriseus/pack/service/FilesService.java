@@ -10,8 +10,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import javafx.application.HostServices;
 import javafx.collections.ObservableList;
+import oriseus.pack.controllers.LoginController;
 import oriseus.pack.modelsViews.*;
 
 /**
@@ -19,6 +23,8 @@ import oriseus.pack.modelsViews.*;
  * @author oriseus
  */
 public class FilesService {
+	
+    private static final Logger logger = (Logger) LogManager.getLogger(FilesService.class);
 	
 	private FilesService() {}
     
@@ -30,6 +36,7 @@ public class FilesService {
     	try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
+			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
     }
@@ -51,8 +58,9 @@ public class FilesService {
                 writer.write(line);
                 writer.write("\n");
             }
-        } catch (IOException ex) {
-            System.out.println("File don't created!");
+        } catch (IOException e) {
+        	logger.error(e.getMessage());
+			e.printStackTrace();
         }
     }
     
@@ -66,8 +74,9 @@ public class FilesService {
                 writer.write(line);
                 writer.write("\n");
             }
-        } catch (IOException ex) {
-            System.out.println("File don't created!");
+        } catch (IOException e) {
+        	logger.error(e.getMessage());
+			e.printStackTrace();
         }
     }
 }

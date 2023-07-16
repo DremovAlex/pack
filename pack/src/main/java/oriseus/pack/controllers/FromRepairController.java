@@ -7,6 +7,9 @@ package oriseus.pack.controllers;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -44,7 +47,7 @@ public class FromRepairController {
     
     private StampView stampView;
     private WindowService windowService;
-    
+        
     @FXML
     private void initialize() {
         windowService = new WindowService();
@@ -95,7 +98,7 @@ public class FromRepairController {
     	
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stamps/update", stampDTO);
     	HttpService.sendObject(PropertiesService.getProperties("ServerUrl") + "/stampRepairHistory/addNewRepairHistory", 
-				stampRepairHistoryDTO);
+    			stampRepairHistoryDTO);
         
     	HttpService.sendGetRequest(PropertiesService.getProperties("ServerUrl") + "/file/fromRepair", 
     			stampView.getTechnologicalMapName() + PropertiesService.getProperties("TechnicalMapImagesSuffix"), stampView.getName());

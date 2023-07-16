@@ -2,6 +2,9 @@ package oriseus.pack.controllers;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -36,6 +39,8 @@ public class LoginController {
     private String login;
     private String password;
     
+    private static final Logger logger = (Logger) LogManager.getLogger(LoginController.class);
+    
     @FXML
     private void switchToMainPage() throws IOException {
         login = loginField.getText();
@@ -54,7 +59,7 @@ public class LoginController {
 			roleDTO = HttpService.sendAndGetObject(PropertiesService.getProperties("ServerUrl") + "/login" , roleDTO, RoleDTO.class);
 		} catch (ServerException e) {
 			text.setText("Неправильный логин или пароль");
-			return;
+			logger.warn(e.getStatusCode() + " : " + e.getMessage());
 		}
     	
     	if (roleDTO.getRole().equals("root")) {

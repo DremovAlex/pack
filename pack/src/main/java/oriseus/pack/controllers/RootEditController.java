@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -66,6 +69,8 @@ public class RootEditController {
     private File technicalMap;
     private File imageOftechnicalMap;
         
+    private static final Logger logger = (Logger) LogManager.getLogger(RootEditController.class);
+    
     @FXML
     private void initialize() {
         windowService = new WindowService();
@@ -170,6 +175,7 @@ public class RootEditController {
 			Files.copy(selectedFile.toPath(), imageOftechnicalMap.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			imageOfTechnicalMapText.setText(technicalMap.getName());
 		} catch (IOException e) {
+			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
     }
@@ -196,6 +202,7 @@ public class RootEditController {
 			Files.copy(selectedFile.toPath(), technicalMap.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			technicalMapText.setText(technicalMap.getName());
     	} catch (IOException e) {
+    		logger.error(e.getMessage());
 			e.printStackTrace();
 		}   	
     }

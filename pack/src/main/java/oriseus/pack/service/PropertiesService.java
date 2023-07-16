@@ -8,11 +8,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
+import oriseus.pack.controllers.LoginController;
+
 /**
  *
  * @author oriseus
  */
 public class PropertiesService {
+	
+    private static final Logger logger = (Logger) LogManager.getLogger(PropertiesService.class);
     
     private PropertiesService() {}
     
@@ -23,8 +30,9 @@ public class PropertiesService {
             Properties property = new Properties();
             property.load(fis);
             value = property.getProperty(key);
-        } catch (IOException e) {
-            System.err.println("ОШИБКА: Файл свойств отсуствует!");
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
         }
         
         return value;

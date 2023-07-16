@@ -7,6 +7,9 @@ package oriseus.pack.controllers;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -63,6 +66,8 @@ public class DamageHistoryController {
     private StampDamageHistoryView stampDamageHistoryView;
     private App app;
     
+    private static final Logger logger = (Logger) LogManager.getLogger(DamageHistoryController.class);
+    
     @FXML
     private void initialize() {
         windowService = new WindowService();
@@ -73,10 +78,8 @@ public class DamageHistoryController {
         shiftColumn.setCellValueFactory(new PropertyValueFactory<>("shift"));
         dateOfDamageColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfDamageDetection"));
         discriptionOfDamageColumn.setCellValueFactory(new PropertyValueFactory<>("descriptionOfDamage"));
-        
-        StampDamageHistoryWrapper stampDamageHistoryWrapper = null;
 		
-        stampDamageHistoryWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") + 
+        StampDamageHistoryWrapper stampDamageHistoryWrapper = HttpService.getObject(PropertiesService.getProperties("ServerUrl") + 
 				"/stampDamageHistory/" + stampView.getName().replace(" ", "%20"), StampDamageHistoryWrapper.class);
 		
         observableList = ConvertService.convertToStampDamageHistoryViewObservableList(stampDamageHistoryWrapper.getList());
@@ -89,16 +92,16 @@ public class DamageHistoryController {
     @FXML
     private void takeReport() {
         File report = new File(PropertiesService.getProperties("TempReportFileLocation") +
-        					 PropertiesService.getProperties("TempReportFileName") + 
-        					 PropertiesService.getProperties("TempReportFileSuffix"));
+        					   PropertiesService.getProperties("TempReportFileName") + 
+        					   PropertiesService.getProperties("TempReportFileSuffix"));
         
         FilesService.getReportDamageHistory(observableList, stampView.getName(), report);
                
         try {
         	FilesService.openFile(app.getHostServices(), report);
-            Thread.sleep(2000);
-        } catch (InterruptedException | IOException e) {
-        
+        } catch (IOException e) {
+        	logger.error(e.getMessage());
+        	e.printStackTrace();
         }
         report.delete();
     }
@@ -129,6 +132,7 @@ public class DamageHistoryController {
 					FilesService.openFile(app.getHostServices(), file);
 					return;
 				} catch (IOException e) {
+					logger.error(e.getMessage());
 					e.printStackTrace();
 				}
     		}

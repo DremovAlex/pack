@@ -8,6 +8,8 @@ module oriseus.pack {
     requires com.fasterxml.jackson.datatype.jsr310;
 	requires spring.web;
     requires spring.core;
+	requires org.apache.logging.log4j.core;
+	requires org.apache.logging.log4j;
 	
     opens oriseus.pack to javafx.fxml;
     opens oriseus.pack.modelsViews to javafx.fxml;

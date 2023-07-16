@@ -95,7 +95,7 @@ public class UserMainController {
         	return;
         }
         
-        windowService.openModalWindow(event, "/oriseus/pack/userSetDamage.fxml", "Детали");
+        windowService.openModalWindow(event, File.separator + "oriseus" + File.separator + "pack" + File.separator + "userSetDamage.fxml", "Детали");
         tableView.refresh();
     }
     
@@ -107,13 +107,13 @@ public class UserMainController {
         	return;
         }
         
-        windowService.openModalWindow(event, "/oriseus/pack/userChangeStorageCell.fxml", "Детали");
+        windowService.openModalWindow(event, File.separator + "oriseus" + File.separator + "pack" + File.separator + "userChangeStorageCell.fxml", "Детали");
         tableView.refresh();
     }
     
     @FXML
     private void logout() throws IOException {
-        windowService.openNewWindow("/oriseus/pack/login.fxml", "Вход", logoutButton);
+        windowService.openNewWindow(File.separator + "oriseus" + File.separator + "pack" + File.separator + "login.fxml", "Вход", logoutButton);
     }
     
     @FXML

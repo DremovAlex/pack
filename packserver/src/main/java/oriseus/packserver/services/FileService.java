@@ -149,6 +149,11 @@ public class FileService {
 	
 	public List<File> getDamagedImagesFromArchive(String owner) {
 		File directory = new File(archiveImages + owner);
+		
+		if (!directory.exists()) {
+			return new ArrayList<File>();
+		}
+		
 		return Arrays.asList(directory.listFiles());
 	}
 	

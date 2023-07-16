@@ -1,5 +1,6 @@
 package oriseus.pack.controllers;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
@@ -63,9 +64,9 @@ public class LoginController {
 		}
     	
     	if (roleDTO.getRole().equals("root")) {
-    		windowService.openNewWindow("/oriseus/pack/rootMainPage.fxml", "Главное окно", loginField);
+    		windowService.openNewWindow(File.separator + "oriseus"+ File.separator + "pack" + File.separator + "rootMainPage.fxml", "Главное окно", loginField);
     	} else if (roleDTO.getRole().equals("user")) {
-    		windowService.openNewWindow("/oriseus/pack/userMainPage.fxml", "Главное окно", loginField);
+    		windowService.openNewWindow(File.separator + "oriseus" + File.separator + "pack"+ File.separator + "userMainPage.fxml", "Главное окно", loginField);
     	} else {
     		text.setText("Ошибка входа");
     	}

@@ -4,6 +4,7 @@
  */
 package oriseus.pack.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -40,7 +41,7 @@ public class WindowService {
         
         Image image = null;
 		try {
-			image = new Image(getClass().getResource("/oriseus/icons/windowIcon.png").toURI().toString());
+			image = new Image(getClass().getResource(File.separator + "oriseus" + File.separator + "icons" + File.separator + "windowIcon.png").toURI().toString());
 		} catch (URISyntaxException e) {
 			logger.warn(e.getMessage());
 			e.printStackTrace();
@@ -70,7 +71,7 @@ public class WindowService {
         
         Image image = null;
 		try {
-			image = new Image(getClass().getResource("/oriseus/icons/windowIcon.png").toURI().toString());
+			image = new Image(getClass().getResource(File.separator + "oriseus" + File.separator + "icons" + File.separator + "windowIcon.png").toURI().toString());
 		} catch (URISyntaxException e) {
 			logger.warn(e.getMessage());
 			e.printStackTrace();

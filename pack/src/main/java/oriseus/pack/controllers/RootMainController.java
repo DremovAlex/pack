@@ -113,12 +113,12 @@ public class RootMainController {
 	
     @FXML
     private void logout() throws IOException {
-        windowService.openNewWindow("/oriseus/pack/login.fxml", "Вход", buttonExit);
+        windowService.openNewWindow(File.separator + "oriseus" + File.separator + "pack" + File.separator + "login.fxml", "Вход", buttonExit);
     }
     
     @FXML
     private void add(ActionEvent event) throws IOException {    	
-        windowService.openModalWindow(event, "/oriseus/pack/rootMainAdd.fxml", "Добавление");
+        windowService.openModalWindow(event, File.separator + "oriseus" + File.separator + "pack" + File.separator + "rootMainAdd.fxml", "Добавление");
         tableView.refresh();
     }
     
@@ -131,7 +131,7 @@ public class RootMainController {
         	return;
         }
         
-        windowService.openModalWindow(event, "/oriseus/pack/rootMainEdit.fxml", "Редактирование");
+        windowService.openModalWindow(event, File.separator + "oriseus" + File.separator + "pack" + File.separator + "rootMainEdit.fxml", "Редактирование");
         tableView.refresh();
     }
     
@@ -159,7 +159,7 @@ public class RootMainController {
     private void fromRepair(ActionEvent event) throws IOException {
     	stampView = (StampView) tableView.getSelectionModel().getSelectedItem();
         if (stampView != null && stampView.getAvailability().equals("Нет")) {
-            windowService.openModalWindow(event, "/oriseus/pack/fromRepair.fxml", "Ввод в эксплуатацию");
+            windowService.openModalWindow(event, File.separator + "oriseus" + File.separator + "pack" + File.separator + "fromRepair.fxml", "Ввод в эксплуатацию");
             tableView.refresh();
         } else {
         	warningText.setText("Клише не в ремонте");
@@ -199,7 +199,7 @@ public class RootMainController {
     		warningText.setText("Вы ничего не выбрали");
     		return;
     	}
-        windowService.openModalWindow(event, "/oriseus/pack/damageHistory.fxml", "История повреждений");
+        windowService.openModalWindow(event, File.separator + "oriseus" + File.separator + "pack" + File.separator + "damageHistory.fxml", "История повреждений");
     }
     
     @FXML
@@ -209,7 +209,7 @@ public class RootMainController {
     		warningText.setText("Вы ничего не выбрали");
     		return;
     	}
-        windowService.openModalWindow(event, "/oriseus/pack/repairHistory.fxml", "История ремонтов");
+        windowService.openModalWindow(event, File.separator + "oriseus" + File.separator + "pack" + File.separator + "repairHistory.fxml", "История ремонтов");
 
     }
     

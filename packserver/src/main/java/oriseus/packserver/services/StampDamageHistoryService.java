@@ -39,6 +39,7 @@ public class StampDamageHistoryService {
 	
 	public StampDamageHistoryWrapper findbyName(String name) {
 		Stamp stamp = stampService.findByName(name);
+		StampDamageHistoryWrapper stampWrapper = new StampDamageHistoryWrapper();
 		List<StampDamageHistory> stampDamageHistories = stampDamageHistoryRepository.findByStampName(name);
 		ArrayList<StampDamageHistoryDTO> stampDamageHistoryDTOs = new ArrayList<StampDamageHistoryDTO>();
 		for (StampDamageHistory stampDamageHistory : stampDamageHistories) {
@@ -46,7 +47,7 @@ public class StampDamageHistoryService {
 			stampDamageHistoryDTO.setStampDTO(convert.convertToStampDTO(stamp));
 			stampDamageHistoryDTOs.add(stampDamageHistoryDTO);
 		}
-		StampDamageHistoryWrapper stampWrapper = new StampDamageHistoryWrapper();
+		
 		stampWrapper.setList(stampDamageHistoryDTOs);
 		return stampWrapper;
 	}

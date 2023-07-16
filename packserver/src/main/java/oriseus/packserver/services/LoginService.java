@@ -26,6 +26,10 @@ public class LoginService {
 		Role role = convert.convertToRole(roleDTO);
 		Role newRole = loginRepository.findByName(role.getName());
 		
+		if (newRole == null) {
+			return null;
+		}
+		
 		if (role == null || !role.getName().equals(newRole.getName()) || !role.getPassword().equals(newRole.getPassword())) {
 			return null;
 		} else {			

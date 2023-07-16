@@ -37,11 +37,11 @@ public class StampController {
 	}
 	
 	@PostMapping("/addNewStamp")
-	public ResponseEntity<HttpStatus> addNewStamp(@RequestBody StampDTO stampDTO,
-												@RequestHeader("token") String headerToken) {
+	public ResponseEntity<?> addNewStamp(@RequestBody StampDTO stampDTO,
+										 @RequestHeader("token") String headerToken) {
 		
 		if (!headerToken.equals(token)) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		stampService.addNewStamp(convert.convertToStamp(stampDTO));
@@ -49,10 +49,10 @@ public class StampController {
 	}
 	
 	@GetMapping()
-	public ResponseEntity<StampWrapper> getAll(@RequestHeader("token") String headerToken) {
+	public ResponseEntity<?> getAll(@RequestHeader("token") String headerToken) {
 		
 		if (!headerToken.equals(token)) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		StampWrapper stampWrapper = stampService.findAll();
@@ -60,11 +60,11 @@ public class StampController {
 	}
 	
 	@GetMapping("/{name}")
-	public ResponseEntity<StampDTO> getByName(@PathVariable String name,
-											@RequestHeader("token") String headerToken) {
+	public ResponseEntity<?> getByName(@PathVariable String name,
+											  @RequestHeader("token") String headerToken) {
 		
 		if (!headerToken.equals(token)) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		StampDTO stampDTO = convert.convertToStampDTO(stampService.findByName(name));	
@@ -72,28 +72,28 @@ public class StampController {
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<HttpStatus> updateStamp(@RequestBody StampDTO stampDTO,
-												@RequestHeader("token") String headerToken) {
+	public ResponseEntity<?> updateStamp(@RequestBody StampDTO stampDTO,
+										 @RequestHeader("token") String headerToken) {
 		
 		if (!headerToken.equals(token)) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		try {
 			stampService.updateStamp(convert.convertToStamp(stampDTO));
 		} catch (IOException e) {
 			e.printStackTrace();
-			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Stamp update error", HttpStatus.NOT_FOUND);
 		}
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
 	@PostMapping("/delete")
-	public ResponseEntity<HttpStatus> deleteStamp(@RequestBody StampDTO stampDTO,
-												@RequestHeader("token") String headerToken) {
+	public ResponseEntity<?> deleteStamp(@RequestBody StampDTO stampDTO,
+										 @RequestHeader("token") String headerToken) {
 		
 		if (!headerToken.equals(token)) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		stampService.deleteStamp(convert.convertToStamp(stampDTO));

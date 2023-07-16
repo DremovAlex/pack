@@ -12,6 +12,7 @@ import oriseus.pack.service.PropertiesService;
 import oriseus.pack.dto.RoleDTO;
 import oriseus.pack.service.HttpService;
 import oriseus.pack.service.WindowService;
+import oriseus.pack.utils.ServerException;
 
 public class LoginController {
 	
@@ -48,8 +49,13 @@ public class LoginController {
     	roleDTO.setName(login);
     	roleDTO.setPassword(password);
     	roleDTO.setRole("");
-
-    	roleDTO = HttpService.sendAndGetObject(PropertiesService.getProperties("ServerUrl") + "/login" , roleDTO, RoleDTO.class);
+		
+    	try {
+			roleDTO = HttpService.sendAndGetObject(PropertiesService.getProperties("ServerUrl") + "/login" , roleDTO, RoleDTO.class);
+		} catch (ServerException e) {
+			text.setText("Неправильный логин или пароль");
+			return;
+		}
     	
     	if (roleDTO.getRole().equals("root")) {
     		windowService.openNewWindow("/oriseus/pack/rootMainPage.fxml", "Главное окно", loginField);

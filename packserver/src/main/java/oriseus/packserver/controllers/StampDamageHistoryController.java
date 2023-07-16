@@ -43,19 +43,20 @@ public class StampDamageHistoryController {
 	}
 	
 	@PostMapping("/addNewDamageHistory")
-	public ResponseEntity<HttpStatus> addNewDamageHistory(@RequestBody StampDamageHistoryDTO stampDamageHistoryDTO,
-														@RequestHeader("token") String headerToken) {
+	public ResponseEntity<?> addNewDamageHistory(@RequestBody StampDamageHistoryDTO stampDamageHistoryDTO,
+												 @RequestHeader("token") String headerToken) {
 		
 		if (!headerToken.equals(token)) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		try {
 			stampDamageHistoryService.addDamageHistory(convert.convertToStampDamageHistory(stampDamageHistoryDTO));
 		} catch (IOException e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Stamp update error", HttpStatus.NOT_FOUND);
 		}
+		
 		fileService.sendDamagedImageToArchive(stampDamageHistoryDTO.getStampDTO().getName(), 
 											  stampDamageHistoryDTO.getDateOfDamageDetection().toString(), 
 											  stampDamageHistoryDTO.getStampDTO().getTechnologicalMapName() + TechnicalMapImagesSuffix);
@@ -64,14 +65,15 @@ public class StampDamageHistoryController {
 	}
 	
 	@GetMapping("/{name}")
-	public ResponseEntity<StampDamageHistoryWrapper> getByStampName(@PathVariable String name,
-																	@RequestHeader("token") String headerToken) {
+	public ResponseEntity<?> getByStampName(@PathVariable String name,
+											@RequestHeader("token") String headerToken) {
 		
 		if (!headerToken.equals(token)) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		StampDamageHistoryWrapper stampDamageHistoryWrapper = stampDamageHistoryService.findbyName(name);
+		
 		return new ResponseEntity<>(stampDamageHistoryWrapper, HttpStatus.OK);
 	}
 }

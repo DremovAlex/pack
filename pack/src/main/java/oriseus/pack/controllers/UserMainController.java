@@ -2,7 +2,6 @@ package oriseus.pack.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import javafx.application.HostServices;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,13 +24,13 @@ import oriseus.pack.service.WindowService;
 public class UserMainController {
     
     @FXML
-    TableView<StampView> tableView;
+    private TableView<StampView> tableView;
     
     @FXML
-    TextField searchTextField;
+    private TextField searchTextField;
     
     @FXML
-    Text warningText;
+    private Text warningText;
     
     @FXML
     private Button searchButton;

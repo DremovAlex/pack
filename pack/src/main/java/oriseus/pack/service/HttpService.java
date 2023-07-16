@@ -8,8 +8,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
+import oriseus.pack.utils.ServerException;
 
 public class HttpService {
 	
@@ -30,13 +32,12 @@ public class HttpService {
 
 		try {
 			response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, clazz);
-		} catch (Exception e) {
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
-		}
-		
-		if (!response.getStatusCode().equals(HttpStatus.OK)) {			
-			Exception e = new RestClientException(response.getStatusCode().toString());
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		} catch (ResourceAccessException resourceAccessException) {
+			AlertService.showAlertException(resourceAccessException, 
+					"Ошибка связи с сервером", 
+					resourceAccessException.getCause().toString());
+		} catch (Exception ex) {
+			throw new ServerException(ex.getMessage());
 		}
 		
 		return (T) response.getBody();
@@ -57,17 +58,16 @@ public class HttpService {
 		
 		try {
 			response = restTemplate.exchange(url, HttpMethod.POST, entity, HttpStatus.class);
-		} catch (Exception e) {
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
-		}
-			
-		if (!response.getStatusCode().equals(HttpStatus.OK)) {
-			Exception e = new RestClientException(response.getStatusCode().toString());
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		} catch (ResourceAccessException resourceAccessException) {
+			AlertService.showAlertException(resourceAccessException, 
+					"Ошибка связи с сервером", 
+					resourceAccessException.getCause().toString());
+		} catch (Exception ex) {
+			throw new ServerException(ex.getMessage());
 		}
 	}
 	
-	public static <T> T sendAndGetObject(String url, T t, Class<T> clazz) {
+	public static <T> T sendAndGetObject(String url, T t, Class<T> clazz) throws ServerException {
 		
 		final  RestTemplate restTemplate = new RestTemplate();
 		final HttpHeaders headers = new HttpHeaders();
@@ -80,18 +80,16 @@ public class HttpService {
 		HttpEntity<T> entity = new HttpEntity<>(t, headers);
 		
 		ResponseEntity<T> response = null;
-		
 		try {
 			response = restTemplate.exchange(url, HttpMethod.POST, entity, clazz);
-		} catch (Exception e) {
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		} catch (ResourceAccessException resourceAccessException) {
+			AlertService.showAlertException(resourceAccessException, 
+					"Ошибка связи с сервером", 
+					resourceAccessException.getCause().toString());
+		} catch (Exception ex) {
+			throw new ServerException(ex.getMessage());
 		}
-			
-		if (!response.getStatusCode().equals(HttpStatus.OK)) {
-			Exception e = new RestClientException(response.getStatusCode().toString());
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
-		}
-		
+				
 		return (T) response.getBody();
 	}
 	
@@ -112,13 +110,39 @@ public class HttpService {
 
 		try {
 			response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, File.class);
-		} catch (Exception e) {
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		} catch (ResourceAccessException resourceAccessException) {
+			AlertService.showAlertException(resourceAccessException, 
+					"Ошибка связи с сервером", 
+					resourceAccessException.getCause().toString());
+		} catch (Exception ex) {
+			throw new ServerException(ex.getMessage());
 		}
 		
-		if (!response.getStatusCode().equals(HttpStatus.OK)) {			
-			Exception e = new RestClientException(response.getStatusCode().toString());
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		return response.getBody();
+	}
+	
+	public static File[] getFiles(String url, String owner) {
+		
+		final RestTemplate restTemplate = new RestTemplate();
+		final HttpHeaders headers = new HttpHeaders();
+		token = PropertiesService.getProperties("Token");
+		
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("token", token);
+		headers.set("owner", owner);
+
+		HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
+		
+		ResponseEntity<File[]> response = null;
+
+		try {
+			response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, File[].class);
+		} catch (ResourceAccessException resourceAccessException) {
+			AlertService.showAlertException(resourceAccessException, 
+					"Ошибка связи с сервером", 
+					resourceAccessException.getCause().toString());
+		} catch (Exception ex) {
+			throw new ServerException(ex.getMessage());
 		}
 		
 		return response.getBody();
@@ -140,67 +164,12 @@ public class HttpService {
 		
 		try {
 			response = restTemplate.exchange(url, HttpMethod.POST, entity, HttpStatus.class);
-		} catch (Exception e) {
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
-		}
-			
-		if (!response.getStatusCode().equals(HttpStatus.OK)) {
-			Exception e = new RestClientException(response.getStatusCode().toString());
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
-		}
-	}
-	
-	public static File[] getFiles(String url, String owner) {
-		
-		final RestTemplate restTemplate = new RestTemplate();
-		final HttpHeaders headers = new HttpHeaders();
-		token = PropertiesService.getProperties("Token");
-		
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("token", token);
-		headers.set("owner", owner);
-
-		HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-		
-		ResponseEntity<File[]> response = null;
-
-		try {
-			response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, File[].class);
-		} catch (Exception e) {
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
-		}
-		
-		if (!response.getStatusCode().equals(HttpStatus.OK)) {			
-			Exception e = new RestClientException(response.getStatusCode().toString());
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
-		}
-		
-		return response.getBody();
-	}
-	
-	public static void sendGetRequest(String url, String fileName, String owner) {
-		final RestTemplate restTemplate = new RestTemplate();
-		final HttpHeaders headers = new HttpHeaders();
-		token = PropertiesService.getProperties("Token");
-	
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.set("token", token);
-		headers.set("fileName", fileName);
-		headers.set("owner", owner);
-		
-		HttpEntity<String> entity = new HttpEntity<>("", headers);
-
-		ResponseEntity<HttpStatus> response = null;
-		
-		try {
-			response = restTemplate.exchange(url, HttpMethod.GET, entity, HttpStatus.class);
-		} catch (Exception e) {
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
-		}
-			
-		if (!response.getStatusCode().equals(HttpStatus.OK)) {
-			Exception e = new RestClientException(response.getStatusCode().toString());
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		} catch (ResourceAccessException resourceAccessException) {
+			AlertService.showAlertException(resourceAccessException, 
+					"Ошибка связи с сервером", 
+					resourceAccessException.getCause().toString());
+		} catch (Exception ex) {
+			throw new ServerException(ex.getMessage());
 		}
 	}
 	
@@ -221,13 +190,38 @@ public class HttpService {
 		
 		try {
 			response = restTemplate.exchange(url, HttpMethod.POST, entity, HttpStatus.class);
-		} catch (Exception e) {
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
-		}
-			
-		if (!response.getStatusCode().equals(HttpStatus.OK)) {
-			Exception e = new RestClientException(response.getStatusCode().toString());
-			AlertService.showAlertException(e, "Ошибка соединения", e.getMessage());
+		} catch (ResourceAccessException resourceAccessException) {
+			AlertService.showAlertException(resourceAccessException, 
+					"Ошибка связи с сервером", 
+					resourceAccessException.getCause().toString());
+		} catch (Exception ex) {
+			throw new ServerException(ex.getMessage());
 		}
 	}
+	
+	public static void sendGetRequest(String url, String fileName, String owner) {
+		final RestTemplate restTemplate = new RestTemplate();
+		final HttpHeaders headers = new HttpHeaders();
+		token = PropertiesService.getProperties("Token");
+	
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("token", token);
+		headers.set("fileName", fileName);
+		headers.set("owner", owner);
+		
+		HttpEntity<String> entity = new HttpEntity<>("", headers);
+
+		ResponseEntity<HttpStatus> response = null;
+		
+		try {
+			response = restTemplate.exchange(url, HttpMethod.GET, entity, HttpStatus.class);
+		} catch (ResourceAccessException resourceAccessException) {
+			AlertService.showAlertException(resourceAccessException, 
+					"Ошибка связи с сервером", 
+					resourceAccessException.getCause().toString());
+		} catch (Exception ex) {
+			throw new ServerException(ex.getMessage());
+		}
+	}
+
 }

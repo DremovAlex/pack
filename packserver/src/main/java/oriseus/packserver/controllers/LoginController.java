@@ -26,18 +26,18 @@ public class LoginController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<RoleDTO> login(@RequestBody RoleDTO roleDTO,
-										@RequestHeader("token") String headerToken) {
+	public ResponseEntity<?> login(@RequestBody RoleDTO roleDTO,
+								   @RequestHeader("token") String headerToken) {
 		
 		if (!headerToken.equals(token)) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		RoleDTO responseRoleDTO = loginService.getRoleByName(roleDTO); 
 		if (responseRoleDTO != null) {
 			return new ResponseEntity<>(responseRoleDTO, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Incorrect login or password", HttpStatus.NOT_FOUND);
 		}
 	}
 }

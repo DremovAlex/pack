@@ -35,26 +35,28 @@ public class StampRepairHistoryController {
 	}
 	
 	@PostMapping("/addNewRepairHistory")
-	public ResponseEntity<HttpStatus> addNewRepairHistory(@RequestBody StampRepairHistoryDTO stampRepairHistoryDTO,
-														@RequestHeader("token") String headerToken) {
+	public ResponseEntity<?> addNewRepairHistory(@RequestBody StampRepairHistoryDTO stampRepairHistoryDTO,
+												 @RequestHeader("token") String headerToken) {
 		
 		if (!headerToken.equals(token)) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		stampRepairHistoryService.addRepairHistory(convert.convertToStampRepairHistory(stampRepairHistoryDTO));
+		
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	
 	@GetMapping("/{name}")
-	public ResponseEntity<StampRepairHistoryWrapper> getByStampName(@PathVariable String name,
-																	@RequestHeader("token") String headerToken) {
+	public ResponseEntity<?> getByStampName(@PathVariable String name,
+											@RequestHeader("token") String headerToken) {
 		
 		if (!headerToken.equals(token)) {
-			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		StampRepairHistoryWrapper stampRepairHistoryWrapper = stampRepairHistoryService.findByName(name);
+		
 		return new ResponseEntity<>(stampRepairHistoryWrapper, HttpStatus.OK);
 	}
 	
